@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="de-DE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>München-Tag · Sa 24.10. · Voting</title>
+<meta name="description" content="Esra, Claire, Laura &amp; Flo voten, was wir in München machen.">
+<meta property="og:title" content="München-Tag · Sa 24.10. · Voting">
+<meta property="og:description" content="Esra, Claire, Laura &amp; Flo voten, was wir in München machen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Nunito+Sans:wght@400;600;800&display=swap">
+<style>
+:root{
+  --bg:#f3f5f8; --card:#fff; --fg:#17202b; --muted:#5b6675; --line:#dfe4ea;
+  --accent:#0f6bd8; --accent-soft:#e3eefc; --win:#13814f; --win-soft:#e1f4ea; --warm:#c2410c;
+  --e:#d6336c; --c:#7048e8; --l:#0c8599; --f:#e8590c;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"Nunito Sans",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0f141b; --card:#18202a; --fg:#e8edf3; --muted:#9aa6b4; --line:#2a3542;
+  --accent:#5ea4ff; --accent-soft:#1b2c44; --win:#4cc78a; --win-soft:#163527; --warm:#fb8a4c;
+  --e:#f06595; --c:#9775fa; --l:#3bc9db; --f:#ff922b; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:660px;margin:0 auto;padding-block:max(20px,env(safe-area-inset-top,0px)) 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:800;font-size:1.2rem;margin:0;text-wrap:balance}
+.eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.lead{color:var(--muted);margin:6px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.84rem}
+.chip b{font-weight:800}
+a{color:var(--accent)}
+/* Wer bin ich */
+.me{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:10px;margin-block:-10px;border-bottom:1px solid var(--line)}
+.me-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.me-label{font-weight:800;font-size:.9rem;margin-right:2px}
+.who{font:inherit;font-weight:800;font-size:.92rem;border:2px solid var(--pc);color:var(--pc);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer}
+.who.on{background:var(--pc);color:#fff}
+.who:focus-visible,.opt:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:.82rem;color:var(--muted);margin-top:6px}
+/* Fixpunkte */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.fix{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start}
+.time{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent);padding-top:1px}
+.fix p{margin:0}
+.sub{color:var(--muted);font-size:.87rem}
+/* Slots */
+.slot header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.slot .stime{font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;font-size:.95rem}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;background:var(--card)}
+.opt:hover{border-color:var(--accent)}
+.opt.mine{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.opt.lead{background:var(--win-soft);border-color:var(--win)}
+.oname{font-weight:800}
+.odesc{grid-column:1/-1;color:var(--muted);font-size:.86rem}
+.oside{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.price{font-size:.78rem;font-weight:800;color:var(--muted);white-space:nowrap}
+.dots{display:flex;gap:3px;min-height:22px}
+.dot{width:22px;height:22px;border-radius:50%;background:var(--pc);color:#fff;font-size:.72rem;font-weight:800;display:grid;place-items:center}
+.tag{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--win);margin-right:6px}
+.tag.wet{color:var(--accent)}
+/* Ergebnis */
+.result{background:var(--accent-soft);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.result ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:5px}
+.result .open{color:var(--muted)}
+.total{font-weight:800}
+.status{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:.78rem;font-weight:800;border-radius:999px;padding:2px 10px;background:var(--card);border:1px solid var(--line)}
+.pill.done{border-color:var(--win);color:var(--win)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:800;font-size:.9rem;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;background:var(--accent);color:#fff}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--muted);font-weight:600}
+.note{font-size:.84rem;color:var(--muted)}
+.warn{color:var(--warm);font-weight:700}
+@media (prefers-reduced-motion:no-preference){.opt{transition:background .15s,border-color .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="eyebrow">Samstag, 24.10.2026 · Augsburg → München</div>
+    <h1>München-Tag zu viert</h1>
+    <p class="lead">Wähl oben, wer du bist, dann tipp bei jedem Slot alles an, worauf du Lust hast (mehrere gehen). Grün = liegt vorne. Danach unten „Stand teilen“ und den Link in die Gruppe schicken, die Stimmen werden zusammengeführt.</p>
+  </div>
+
+  <div class="facts">
+    <span class="chip">🌥️ <b>4–10 °C</b>, windig, nachmittags evtl. Schauer</span>
+    <span class="chip">🌆 dunkel ab ca. <b>18 Uhr</b></span>
+    <span class="chip">🎡 <b>Auer Dult</b> nur noch bis So</span>
+    <span class="chip">🕐 Nacht auf So: <b>Uhr zurück</b>, 1 h länger schlafen</span>
+  </div>
+
+  <div class="me">
+    <div class="me-row" id="who"><span class="me-label">Ich bin:</span></div>
+    <div class="hint" id="whohint">Erst Namen wählen, dann voten.</div>
+  </div>
+
+  <section class="card" aria-label="Anfahrt">
+    <h2>Anfahrt (fix)</h2>
+    <div class="fix"><span class="time">10:00</span><p>Los in Augsburg, A8 Richtung München<br><span class="sub">ca. 45 Min bis P+R Langwied</span></p></div>
+    <div class="fix"><span class="time">~10:50</span><p>Parken P+R Langwied, <b>Gruppen-Tageskarte Zone M</b> für alle 4<br><span class="sub">bis 5 Personen, ca. 19,70 € laut Sekundärquelle, also ~5 € pro Kopf. Preis am Automaten/MVV-App checken.</span></p></div>
+    <div class="fix"><span class="time">~11:00</span><p>S3 Richtung Holzkirchen, ca. 20 Min bis Marienplatz<br><span class="sub">Vorher kurz MVV-App checken, am Wochenende laufen im Westen Bauarbeiten (S3 laut Plan nicht betroffen).</span></p></div>
+  </section>
+
+  <div id="slots" style="display:flex;flex-direction:column;gap:18px"></div>
+
+  <section class="result" aria-live="polite">
+    <div class="eyebrow">Unser Tag, Stand jetzt</div>
+    <div class="status" id="status"></div>
+    <ol id="plan"></ol>
+    <div class="total" id="total"></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">🔗 Stand teilen (Link)</button>
+      <button class="btn ghost" id="reset" type="button">Meine Stimmen löschen</button>
+    </div>
+    <div class="note">Preise sind grobe Schätzungen pro Person, keine Live-Preise. Escape Room, Karaoke, Bouldern und Wirtshaus samstags vorher online reservieren.</div>
+  </section>
+
+  <section class="card" aria-label="Rückfahrt">
+    <h2>Rückfahrt</h2>
+    <div class="fix"><span class="time">spät</span><p>S3 zurück nach Langwied, dann ca. 45 Min Auto nach Augsburg<br><span class="sub">S3 fährt bis nach Mitternacht. <span class="warn">Wer fährt, bleibt abends nüchtern.</span></span></p></div>
+  </section>
+</div>
+
+<script>
+var PEOPLE = [
+  { id:"E", name:"Esra",   color:"var(--e)" },
+  { id:"C", name:"Claire", color:"var(--c)" },
+  { id:"L", name:"Laura",  color:"var(--l)" },
+  { id:"F", name:"Flo",    color:"var(--f)" }
+];
+// wet: true = wetterfest/drinnen
+var SLOTS = [
+  { id:"kaffee", time:"11:20", title:"Ankommen: Kaffee & was Süßes", options:[
+    { id:"frischhut", t:"Schmalznudeln am Viktualienmarkt", d:"Café Frischhut, die Münchner Schmalznudel frisch aus dem Fett. Kult, oft Schlange.", p:6, wet:true },
+    { id:"vikt-kaffee", t:"Coffee to go am Viktualienmarkt", d:"Kaffee in die Hand und gleich über den Markt schlendern.", p:4 },
+    { id:"dallmayr", t:"Dallmayr Delikatessenhaus", d:"Altehrwürdiges Feinkosthaus hinterm Rathaus, Kaffee und Gebäck mit Grandezza.", p:10, wet:true },
+    { id:"skip", t:"Direkt los, kein Stopp", d:"Mehr Zeit fürs Programm.", p:0 }
+  ]},
+  { id:"vormittag", time:"11:45–13:30", title:"Erste Runde", options:[
+    { id:"dult", t:"Auer Dult am Mariahilfplatz", d:"Herbstdult, vorletzter Tag: 250 Stände, Geschirr, Trödel, Fahrgeschäfte, Schiffschaukel. Eintritt frei, 10–19 Uhr.", p:12, top:true },
+    { id:"altstadt", t:"Altstadt-Runde", d:"Marienplatz, Frauenkirche, Asamkirche (Barock-Wahnsinn auf 8 Metern Breite), Hofgarten.", p:0 },
+    { id:"eisbach", t:"Englischer Garten + Eisbachwelle", d:"Surfern zuschauen, Chinesischer Turm. Bei Wind frisch, dafür nah am Uniqlo.", p:0 },
+    { id:"residenz", t:"Residenz München", d:"Prunk-Schloss mitten in der Stadt, Antiquarium ist ein Wow. Wetterfest.", p:10, wet:true },
+    { id:"schwabing", t:"Schwabing + Uniqlo zuerst", d:"Shopping gleich am Anfang abhaken, danach frei.", p:0 }
+  ]},
+  { id:"mittag", time:"13:30", title:"Mittagessen", options:[
+    { id:"dult-food", t:"Auf der Dult essen", d:"Bratwurstsemmel, Steckerlfisch, Crêpes. Passt, wenn die erste Runde Dult war.", p:12 },
+    { id:"brotzeit", t:"Brotzeit am Viktualienmarkt", d:"An den Ständen holen: Leberkäs, Obatzda, Breze.", p:12 },
+    { id:"asia-street", t:"Asiatisches Streetfood", d:"Bowls, Bao, Dumplings. Schnell und warm.", p:15, wet:true },
+    { id:"cafe-lunch", t:"Café-Lunch zum Aufwärmen", d:"Suppe, Stulle, Kuchen. Sitzen und quatschen.", p:16, wet:true }
+  ]},
+  { id:"uniqlo", time:"flexibel", title:"Wann geht's zu Uniqlo?", fixed:"Uniqlo, Leopoldstraße 35 (U3/U6 Giselastraße, ca. 10 Min ab Marienplatz)", options:[
+    { id:"u-frueh", t:"Nach dem Mittagessen", d:"Dann ist der Nachmittag frei für Action.", p:0 },
+    { id:"u-spaet", t:"Vor dem Abendessen (ca. 17:30)", d:"Läden schließen samstags meist 20 Uhr, passt gut.", p:0 },
+    { id:"u-split", t:"Splitten", d:"Wer will, geht shoppen, die anderen sitzen im Café um die Ecke. Treffpunkt danach.", p:0 }
+  ]},
+  { id:"nachmittag", time:"14:30–17:30", title:"Nachmittags-Action", options:[
+    { id:"escape", t:"Escape Room", d:"Perfekt für genau 4 Leute. Vorher online Slot buchen.", p:30, wet:true, top:true },
+    { id:"minigolf", t:"Schwarzlicht-Minigolf", d:"Albern, neonbunt, drinnen. Lach-Garantie.", p:15, wet:true },
+    { id:"bouldern", t:"Bouldern", d:"Schuhe leihen, gemeinsam an kniffligen Routen tüfteln. Anfänger-tauglich.", p:22, wet:true },
+    { id:"bowling", t:"Bowling", d:"Klassiker. Mit Pommes und Spezi.", p:15, wet:true },
+    { id:"lasertag", t:"Lasertag", d:"2 gegen 2, wer verliert, zahlt den Absacker.", p:20, wet:true },
+    { id:"volksbad", t:"Müller'sches Volksbad", d:"Jugendstil-Hallenbad an der Isar, schwimmen wie in einer Kathedrale. Badesachen mitnehmen!", p:8, wet:true },
+    { id:"deutsches-museum", t:"Deutsches Museum", d:"Viel zum Ausprobieren. Lieber 2 Stunden für einen Bereich als alles.", p:15, wet:true },
+    { id:"olympia", t:"Olympiapark + Olympiaturm + BMW Welt", d:"Aussicht von oben, die BMW Welt nebenan ist gratis. U3 Olympiazentrum.", p:13 },
+    { id:"pinakothek", t:"Pinakothek der Moderne", d:"Kunst, Design, Architektur in einem Haus. Gut bei Regen.", p:10, wet:true }
+  ]},
+  { id:"essen", time:"18:30", title:"Abendessen", options:[
+    { id:"wirtshaus", t:"Bayerisches Wirtshaus", d:"Schweinsbraten, Kässpatzn, Knödel. Z. B. Augustiner in der Neuhauser Straße. Reservieren!", p:28 },
+    { id:"ramen", t:"Ramen", d:"Heiße Brühe bei 6 Grad, perfekt.", p:20 },
+    { id:"pizza", t:"Pizza / Italienisch", d:"Geht immer, für jedes Budget.", p:20 },
+    { id:"viet", t:"Vietnamesisch / Sushi", d:"Frisch und leicht, viele Läden in der Maxvorstadt.", p:22 },
+    { id:"burger", t:"Burger / Streetfood", d:"Locker, günstig, kein Tisch nötig.", p:16 },
+    { id:"mex", t:"Mexikanisch + Margarita", d:"Tacos zum Teilen, guter Start in den Abend.", p:24 }
+  ]},
+  { id:"abend", time:"ab 20:00", title:"Abendprogramm", options:[
+    { id:"cocktail", t:"Cocktailbar im Glockenbachviertel", d:"Viele Bars nah beieinander, samstags gute Stimmung.", p:25, top:true },
+    { id:"karaoke", t:"Karaoke-Kabine", d:"Eigene Box für uns vier. Vorher reservieren.", p:20, wet:true },
+    { id:"spiele", t:"Spielebar / Brettspielcafé", d:"Drinks und Spiele, gemütlich quatschen.", p:15, wet:true },
+    { id:"impro", t:"Impro-Theater / Comedy", d:"Lachen ohne selbst singen zu müssen. Vorher schauen, was läuft.", p:20, wet:true },
+    { id:"kino", t:"Kino", d:"Entspannter Ausklang, wenn alle platt sind.", p:14, wet:true },
+    { id:"dessert", t:"Nur noch Eis/Dessert, dann heim", d:"Süßer Abschluss, gegen 21:30 zurück.", p:6 }
+  ]}
+];
+
+var KEY = "muc-2026-10-24";
+// votes: { personId: { ts: number, picks: { slotId: [optionId,...] } } }
+function emptyState(){ var s={}; PEOPLE.forEach(function(p){ s[p.id]={ts:0,picks:{}}; }); return s; }
+function loadLocal(){ try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){ return null; } }
+function fromUrl(){
+  try { var v = new URLSearchParams(location.search).get("v"); return v ? JSON.parse(decodeURIComponent(escape(atob(v)))) : null; } catch(e){ return null; }
+}
+function merge(a,b){
+  var out = emptyState();
+  PEOPLE.forEach(function(p){
+    var x=(a&&a[p.id])||{ts:0,picks:{}}, y=(b&&b[p.id])||{ts:0,picks:{}};
+    out[p.id] = (y.ts > x.ts) ? y : x;   // pro Person gewinnt der neuere Stand
+  });
+  return out;
+}
+var votes = merge(loadLocal(), fromUrl());
+var me = null; try { me = localStorage.getItem("muc-me"); } catch(e){}
+function saveLocal(){ try { localStorage.setItem(KEY, JSON.stringify(votes)); } catch(e){} }
+saveLocal();
+
+function encodeState(){ return btoa(unescape(encodeURIComponent(JSON.stringify(votes)))); }
+function updateUrl(){ var u=new URL(location.href); u.searchParams.set("v", encodeState()); history.replaceState(null,"",u); }
+
+function voters(slot,opt){ return PEOPLE.filter(function(p){ return (votes[p.id].picks[slot]||[]).indexOf(opt)>=0; }); }
+function leaders(slot){
+  var max=0, best=[];
+  slot.options.forEach(function(o){ var n=voters(slot.id,o.id).length; if(n>max){max=n;best=[o];} else if(n===max&&n>0){best.push(o);} });
+  return best;
+}
+
+function renderWho(){
+  var row=document.getElementById("who");
+  row.querySelectorAll(".who").forEach(function(b){ b.remove(); });
+  PEOPLE.forEach(function(p){
+    var b=document.createElement("button"); b.type="button"; b.className="who"+(me===p.id?" on":"");
+    b.style.setProperty("--pc", p.color); b.textContent=p.name;
+    b.onclick=function(){ me=p.id; try{localStorage.setItem("muc-me",me);}catch(e){} renderAll(); };
+    row.appendChild(b);
+  });
+  document.getElementById("whohint").textContent = me ? "Du votest als "+PEOPLE.filter(function(p){return p.id===me;})[0].name+". Tippen = Stimme an/aus." : "Erst Namen wählen, dann voten.";
+}
+
+function renderSlots(){
+  var host=document.getElementById("slots"); host.innerHTML="";
+  SLOTS.forEach(function(s){
+    var lead=leaders(s);
+    var sec=document.createElement("section"); sec.className="card slot";
+    var h=document.createElement("header");
+    var h2=document.createElement("h2"); h2.textContent=s.title;
+    var t=document.createElement("span"); t.className="stime"; t.textContent=s.time;
+    h.appendChild(h2); h.appendChild(t); sec.appendChild(h);
+    if(s.fixed){ var f=document.createElement("div"); f.className="sub"; f.textContent="📍 "+s.fixed; sec.appendChild(f); }
+    var list=document.createElement("div"); list.className="opts";
+    s.options.forEach(function(o){
+      var vs=voters(s.id,o.id);
+      var b=document.createElement("button"); b.type="button";
+      var isMine = me && vs.some(function(p){return p.id===me;});
+      b.className="opt"+(lead.indexOf(o)>=0?" lead":"")+(isMine?" mine":"");
+      b.setAttribute("aria-pressed", isMine?"true":"false");
+      var left=document.createElement("div");
+      if(o.top){ var tg=document.createElement("span"); tg.className="tag"; tg.textContent="Tipp"; left.appendChild(tg); }
+      if(o.wet){ var tw=document.createElement("span"); tw.className="tag wet"; tw.textContent="drinnen"; left.appendChild(tw); }
+      var n=document.createElement("div"); n.className="oname"; n.textContent=o.t; left.appendChild(n);
+      var side=document.createElement("div"); side.className="oside";
+      var dots=document.createElement("div"); dots.className="dots";
+      vs.forEach(function(p){ var d=document.createElement("span"); d.className="dot"; d.style.setProperty("--pc",p.color); d.textContent=p.id; d.title=p.name; dots.appendChild(d); });
+      var pr=document.createElement("div"); pr.className="price"; pr.textContent=o.p?("~"+o.p+" €"):"gratis";
+      side.appendChild(dots); side.appendChild(pr);
+      var desc=document.createElement("div"); desc.className="odesc"; desc.textContent=o.d;
+      b.appendChild(left); b.appendChild(side); b.appendChild(desc);
+      b.onclick=function(){
+        if(!me){ document.getElementById("whohint").innerHTML='<span class="warn">Bitte erst oben auswählen, wer du bist.</span>'; window.scrollTo({top:0,behavior:"smooth"}); return; }
+        var mine=votes[me]; var arr=mine.picks[s.id]||[]; var i=arr.indexOf(o.id);
+        if(i>=0) arr.splice(i,1); else arr.push(o.id);
+        mine.picks[s.id]=arr; mine.ts=Date.now(); saveLocal(); updateUrl(); renderAll();
+      };
+      list.appendChild(b);
+    });
+    sec.appendChild(list); host.appendChild(sec);
+  });
+}
+
+function renderResult(){
+  var st=document.getElementById("status"); st.innerHTML="";
+  PEOPLE.forEach(function(p){
+    var n=Object.keys(votes[p.id].picks).filter(function(k){return votes[p.id].picks[k].length;}).length;
+    var s=document.createElement("span"); s.className="pill"+(n>=SLOTS.length?" done":"");
+    s.textContent=p.name+" "+n+"/"+SLOTS.length; st.appendChild(s);
+  });
+  var plan=document.getElementById("plan"); plan.innerHTML="";
+  var sum=5; // Anteil Gruppen-Tageskarte
+  SLOTS.forEach(function(s){
+    var l=leaders(s), li=document.createElement("li");
+    var b=document.createElement("b"); b.textContent=s.title+": ";
+    li.appendChild(b);
+    if(!l.length){ li.className="open"; li.appendChild(document.createTextNode("noch offen")); }
+    else if(l.length===1){ li.appendChild(document.createTextNode(l[0].t)); sum+=l[0].p; }
+    else { li.appendChild(document.createTextNode("Gleichstand: "+l.map(function(o){return o.t;}).join(" / "))); sum+=Math.max.apply(null,l.map(function(o){return o.p;})); }
+    plan.appendChild(li);
+  });
+  document.getElementById("total").textContent="Geschätzt ca. "+sum+" € pro Person (inkl. Ticket-Anteil, ohne Sprit, Parken, Shopping)";
+}
+
+function renderAll(){ renderWho(); renderSlots(); renderResult(); }
+
+document.getElementById("share").onclick=function(){
+  updateUrl(); var btn=this, url=location.href;
+  function done(t){ btn.textContent=t; setTimeout(function(){ btn.textContent="🔗 Stand teilen (Link)"; },1800); }
+  if(navigator.share){ navigator.share({title:"München-Tag Voting", url:url}).catch(function(){}); return; }
+  if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){done("Link kopiert ✓");},function(){prompt("Link kopieren:",url);}); }
+  else prompt("Link kopieren:", url);
+};
+document.getElementById("reset").onclick=function(){
+  if(!me) return;
+  var btn=this;
+  if(!btn.dataset.armed){ btn.dataset.armed="1"; btn.textContent="Wirklich? Nochmal tippen"; return; }
+  votes[me]={ts:Date.now(),picks:{}}; saveLocal(); updateUrl(); delete btn.dataset.armed; btn.textContent="Meine Stimmen löschen"; renderAll();
+};
+if(fromUrl()) updateUrl();
+renderAll();
+</script>
+</body>
+</html>
