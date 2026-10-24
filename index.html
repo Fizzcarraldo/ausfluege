@@ -12,6 +12,8 @@
 <meta property="og:image" content="https://fizzcarraldo.github.io/ausfluege/img/hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* Layout-Idee: Die Seite ist der Himmel über München von 10 bis Mitternacht.
    Jedes Zeitfenster trägt seine eigene Himmelsfarbe (Vormittag hell → Dämmerung → Nacht),
@@ -105,6 +107,25 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .dot{width:24px;height:24px;border-radius:50%;background:var(--pc);border:2px solid #fff;color:#fff;font-size:.7rem;font-weight:800;display:grid;place-items:center;margin-left:-6px}
 .dot:first-child{margin-left:0}
 .swipe{font-size:.76rem;font-weight:600;color:var(--muted)}
+/* Karte */
+.mapwrap{background:#eef3f7}
+.mapwrap .inner{padding-block:24px 22px;display:flex;flex-direction:column;gap:10px}
+.mapwrap h2{font-family:var(--display);font-weight:800;font-size:1.45rem;margin:0}
+.mapwrap p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+#map{height:min(66vh,480px);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px -18px rgba(0,0,0,.5);z-index:1;background:#dfe7ee}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.78rem;font-weight:600;color:var(--ink-soft)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:50%;background:var(--c);display:inline-block}
+.pin{width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:block}
+.pin.lead{width:auto;height:auto;border-radius:999px;padding:3px 8px;color:#fff;font:700 12px/1.2 var(--body);white-space:nowrap;border:2px solid var(--gold);box-shadow:0 3px 10px rgba(0,0,0,.35);transform:translate(-30%,-30%)}
+.leaflet-div-icon{background:none;border:0}
+.leaflet-popup-content{font-family:var(--body);font-size:13px;margin:10px 12px;line-height:1.4}
+.pop b{font-family:var(--display);font-size:14px}
+.pop ul{margin:6px 0 0;padding:0;list-style:none}
+.pop li{display:flex;gap:6px;align-items:baseline}
+.pop .tm{font-weight:700;color:var(--c);font-variant-numeric:tabular-nums}
+.pop a{font-weight:700}
+.where{font-size:.74rem;font-weight:600;opacity:.85}
 .grp{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 
 /* Route */
@@ -182,6 +203,15 @@ details ul{padding-left:1.1em}
     <div class="hint" id="whohint">Wähl dich aus, dann pro Uhrzeit wischen und antippen, worauf du Lust hast.</div>
   </div>
 </div>
+
+<section class="mapwrap" aria-label="Karte">
+  <div class="inner">
+    <h2>Wo ist was</h2>
+    <p>Jeder Punkt ist eine Option, die Farbe zeigt die Uhrzeit. Was gerade vorne liegt, hat ein Uhrzeit-Schild und ist als Tagesroute verbunden. Punkt antippen für Details.</p>
+    <div id="map"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</section>
 
 <main id="timeline"></main>
 
@@ -286,15 +316,13 @@ var TIMELINE = [
   ]},
   { id:"nachmittag", time:"14:30", dur:"2,5 Std", title:"Nachmittag", sub:"Zwei Reihen: Action oder eine der Ausstellungen, die gerade laufen.", options:[
     { grp:"Action", id:"billard", img:"billard", at:"rumford", t:"Billard im Café Rumford", d:"Billard-Café nahe Isartor/Gärtnerplatz, samstags ab 9 Uhr offen. Wer verliert, holt die nächste Runde.", p:12, wet:true, top:true },
-    { grp:"Action", id:"bodyflying", img:"bodyflying", at:"jsarena", t:"Bodyflying in der Jochen Schweizer Arena", d:"Fliegen im Windkanal wie beim Fallschirmsprung, dazu Indoor-Surfwelle. S3 durch bis Taufkirchen. Teuer, aber unvergesslich. Preis + Slots checken.", p:70, wet:true },
     { grp:"Action", id:"escape", img:"escape", t:"Escape Room", d:"Perfekt für genau 4 Leute, 60 Min rätseln. Vorher online Slot buchen.", p:30, wet:true },
-    { grp:"Action", id:"maxx", img:"trampolin", at:"maxx", t:"MAXX Arena: Trampolin, Lasertag, 3D-Schwarzlicht-Golf", d:"Größte Trampolinhalle Münchens plus Laser-Labyrinth. In Kirchheim, S2 Heimstetten.", p:25, wet:true },
-    { grp:"Action", id:"jump", img:"trampolin", at:"jump", t:"JUMP House", d:"3.400 m² Trampolin plus Ninja-Parcours. Freimann, U6 Freimann.", p:20, wet:true },
+    { grp:"Action", id:"maxx", img:"maxx", at:"maxx", t:"MAXX Arena: Lasertag + 3D-Schwarzlicht-Golf", d:"Lasertag, Laser-Labyrinth und Neon-Minigolf, alles in Alltagsklamotten. Etwas draußen in Kirchheim, S2 Heimstetten.", p:25, wet:true },
     { grp:"Action", id:"vr", img:"vr", t:"VR-Escape-Room", d:"Escape Room mit VR-Brillen, 1 Stunde in einer anderen Welt.", p:35, wet:true },
-    { grp:"Action", id:"bouldern", img:"bouldern", t:"Bouldern", d:"Schuhe leihen, gemeinsam an Routen tüfteln. Anfänger-tauglich.", p:22, wet:true },
+    { grp:"Action", id:"keramik", img:"keramik", t:"Keramik bemalen", d:"Tassen oder Teller selbst bemalen, Café-Atmosphäre, man nimmt was mit nach Hause (Abholung nach dem Brennen). Vorher Platz reservieren.", p:25, wet:true },
+    { grp:"Action", id:"arcade", img:"arcade", t:"Arcade & Flipper", d:"Retro-Automaten, Flipper, Airhockey. Laut, bunt, kompetitiv.", p:15, wet:true },
     { grp:"Action", id:"bowling", img:"bowling", t:"Bowling", d:"Der Klassiker, mit Pommes und Spezi.", p:15, wet:true },
-    { grp:"Action", id:"eis", img:"eis", at:"eisstadion", t:"Eislaufen im Olympia-Eisstadion", d:"Öffentlicher Lauf mit Musik. Saisonzeiten vorher auf olympiapark.de checken.", p:10, wet:true },
-    { grp:"Action", id:"volksbad", img:"volksbad", at:"volksbad", t:"Müller'sches Volksbad", d:"Jugendstil-Hallenbad an der Isar, schwimmen wie in einer Kathedrale. Badesachen mitnehmen!", p:8, wet:true },
+    { grp:"Action", id:"eis", img:"eis", at:"eisstadion", t:"Eislaufen im Olympia-Eisstadion", d:"Schlittschuhe leihen, geht auch in Jeans. Öffentlicher Lauf mit Musik, Saisonzeiten vorher auf olympiapark.de checken.", p:10, wet:true },
     { grp:"Ausstellungen gerade", id:"saraceno", img:"saraceno", at:"hdk", t:"Tomás Saraceno, Haus der Kunst", d:"„Verwobene Welten“: riesige Netz- und Luftinstallationen, Spinnen, Räume voller Salz. Seine größte Schau in Deutschland, bis 7.2.", p:15, wet:true, top:true },
     { grp:"Ausstellungen gerade", id:"barcelona", img:"gaudi", at:"kunsthalle", t:"Barcelona moderna: Gaudí bis Picasso", d:"Kunsthalle München, gestern eröffnet. Barcelona um 1900 als Zentrum der Moderne.", p:16, wet:true },
     { grp:"Ausstellungen gerade", id:"bruegel", img:"bruegel", at:"altepin", t:"Bruegels „Schlaraffenland“, Alte Pinakothek", d:"Neue Schau über das Gemälde und seine Geschichte, seit gestern zu sehen.", p:9, wet:true },
@@ -328,7 +356,7 @@ var TIMELINE = [
   ]},
   { fixed:true, time:"spät", dur:"1 Std", title:"Rückfahrt", text:"S3 zurück nach Langwied (fährt bis nach Mitternacht), dann 45 Min Auto. Wer fährt, bleibt nüchtern.", at:"langwied" }
 ];
-var CREDITS = {"kaffee": "2023-09-27 Latte Macchiato.jpg", "tushita": "Teapot and teacups adorned with uzbek traditional motifs.jpg", "skip": "Rathaus and Marienplatz from Peterskirche - August 2006.jpg", "dult": "004 Auerduld Kirchweihdult 2013.JPG", "altstadt": "Asamkirche München Innenraum.jpg", "eisbach": "Surfer auf der Eisbachwelle Bild 4 2022-11-19.jpg", "residenz": "Antiquarium Residenz Munich.jpg", "maxpett": "Veganes Frankfurter Schnitzel mit veganer Grüner Sauce und Salzkartoffeln.jpg", "swing": "Vegan Burger (5841255378).jpg", "mandeln": "Frisch gebrannte Mandeln 2011.JPG", "escape": "Escape Quest - The Black Widow 1.jpg", "bouldern": "Man climbing in bouldering gym.jpg", "bowling": "Bowling alley in Grinnell, Iowa.jpg", "volksbad": "Müllersches Volksbad, Múnich, Alemania04.JPG", "olympia": "Olympiapark München.jpg", "pinakothek": "München-Maxvorstadt Pinakothek der Moderne Rotunde 755.jpg", "uniqlo": "Interior of Uniqlo The Heritage Bandung.jpg", "emmis": "Pancakes (Vegan) (Cropped).jpg", "hexenhaus": "Vegan crumb cake from Tartine.jpg", "bodhi": "Seitan steak with red cabbage and potatoes.jpg", "soy": "Gỏi cuốn.jpg", "myshkin": "Easy vegan pho (48839662497).jpg", "cocktail": "Bartender at Sylvarum cocktail bar, Alicante.jpg", "karaoke": "Karaoke-Box.jpg", "spiele": "Draughts board game café Haggerton 2019.jpg", "impro": "The Laughing Audience (BM 1858,0417.557).jpg", "heim": "Siegestor München abends.jpg", "billard": "Billiards table 4.jpg", "darts": "Playing Darts.jpg", "bodyflying": "IFly - panoramio.jpg", "trampolin": "Trampoline Park.jpg", "vr": "InclusiveGameLab Person-Playing-Virtual-Reality 9 CC-BY-SA.jpg", "eis": "Servus Place Leisure Ice Skating Rink 2014.jpg", "friedhof": "20221107 Alter Südfriedhof München 05.jpg", "valentin": "Panoptikum im Valentin-Karlstadt-Museum.jpg", "saraceno": "Tomás Saraceno - new connectome (working title) (10923260633).jpg", "gaudi": "Casa Batlló 01.jpg", "bruegel": "Pieter Bruegel d. Ä. (1525-1569) - Das Schlaraffenland - 8940 - Bavarian State Painting Collections.jpg", "smaek": "Staatliches Museum Ägyptischer Kunst und HFF.jpg", "brandhorst": "Museum Brandhorst Fassade 1.JPG", "nacht": "Palmié Charles - Marienplatz.jpg", "mammabao": "Biang Biang Mian.jpg", "fuenfk": "München-Lehel Museum Fünf Kontinente 671.jpg", "hero": "Englischer Garten Monopteros Herbst-6.jpg"};
+var CREDITS = {"kaffee": "2023-09-27 Latte Macchiato.jpg", "tushita": "Teapot and teacups adorned with uzbek traditional motifs.jpg", "skip": "Rathaus and Marienplatz from Peterskirche - August 2006.jpg", "dult": "004 Auerduld Kirchweihdult 2013.JPG", "altstadt": "Asamkirche München Innenraum.jpg", "eisbach": "Surfer auf der Eisbachwelle Bild 4 2022-11-19.jpg", "residenz": "Antiquarium Residenz Munich.jpg", "maxpett": "Veganes Frankfurter Schnitzel mit veganer Grüner Sauce und Salzkartoffeln.jpg", "swing": "Vegan Burger (5841255378).jpg", "mandeln": "Frisch gebrannte Mandeln 2011.JPG", "escape": "Escape Quest - The Black Widow 1.jpg", "bowling": "Bowling alley in Grinnell, Iowa.jpg", "olympia": "Olympiapark München.jpg", "pinakothek": "München-Maxvorstadt Pinakothek der Moderne Rotunde 755.jpg", "uniqlo": "Interior of Uniqlo The Heritage Bandung.jpg", "emmis": "Pancakes (Vegan) (Cropped).jpg", "hexenhaus": "Vegan crumb cake from Tartine.jpg", "bodhi": "Seitan steak with red cabbage and potatoes.jpg", "soy": "Gỏi cuốn.jpg", "myshkin": "Easy vegan pho (48839662497).jpg", "cocktail": "Bartender at Sylvarum cocktail bar, Alicante.jpg", "karaoke": "Karaoke-Box.jpg", "spiele": "Draughts board game café Haggerton 2019.jpg", "impro": "The Laughing Audience (BM 1858,0417.557).jpg", "heim": "Siegestor München abends.jpg", "billard": "Billiards table 4.jpg", "darts": "Playing Darts.jpg", "vr": "InclusiveGameLab Person-Playing-Virtual-Reality 9 CC-BY-SA.jpg", "eis": "Servus Place Leisure Ice Skating Rink 2014.jpg", "friedhof": "20221107 Alter Südfriedhof München 05.jpg", "valentin": "Panoptikum im Valentin-Karlstadt-Museum.jpg", "saraceno": "Tomás Saraceno - new connectome (working title) (10923260633).jpg", "gaudi": "Casa Batlló 01.jpg", "bruegel": "Pieter Bruegel d. Ä. (1525-1569) - Das Schlaraffenland - 8940 - Bavarian State Painting Collections.jpg", "smaek": "Staatliches Museum Ägyptischer Kunst und HFF.jpg", "brandhorst": "Museum Brandhorst Fassade 1.JPG", "nacht": "Palmié Charles - Marienplatz.jpg", "mammabao": "Biangbiang noodles.jpg", "fuenfk": "München-Lehel Museum Fünf Kontinente 671.jpg", "hero": "Englischer Garten Monopteros Herbst-6.jpg", "maxx": "Live Painting by Beo Beyond.jpg", "keramik": "Mugs and plates at 49 Kossuth St, Tihany.JPG", "arcade": "Retrovolt Arcade 2017 - Arcade and Pinball Machines.jpg"};
 
 // Himmel pro Uhrzeit: Hintergrund, Text, gedämpfter Text, Icon
 var SKY = {
@@ -508,6 +536,53 @@ function renderRoute(){
   if(skipped.length){ ul.appendChild(el("li","empty","Ort noch offen (selbst raussuchen): "+skipped.join(", "))); }
 }
 
+var SLOTCOL={ankommen:"#0ca678",vormittag:"#e67700",mittag:"#e8590c",nachmittag:"#1c7ed6",spaet:"#d6336c",essen:"#7048e8",abend:"#2b2f6b"};
+var map=null, mapLayer=null;
+function initMap(){
+  if(!window.L || map) return;
+  map=L.map("map",{scrollWheelZoom:false,zoomControl:true,attributionControl:true});
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  mapLayer=L.layerGroup().addTo(map);
+  var center=[48.1372,11.5755], pts=[];
+  Object.keys(PLACES).forEach(function(k){ var ll=PLACES[k].ll; if(ll&&km(center,ll)<3.2) pts.push(ll); });
+  map.fitBounds(pts,{padding:[18,18]});
+  var lg=document.getElementById("legend");
+  SLOTS.forEach(function(s){ var sp=el("span"), i=el("i"); i.style.setProperty("--c",SLOTCOL[s.id]); sp.appendChild(i); sp.appendChild(document.createTextNode(s.time+" "+s.title.replace(/ \(.*\)/,""))); lg.appendChild(sp); });
+}
+function esc(t){ var d=document.createElement("div"); d.textContent=t; return d.innerHTML; }
+function renderMap(){
+  if(!map) return;
+  mapLayer.clearLayers();
+  var byPlace={}, order=[];
+  SLOTS.forEach(function(s){
+    var lead=leaders(s);
+    s.options.forEach(function(o){
+      if(!o.at||!PLACES[o.at].ll) return;
+      if(!byPlace[o.at]){ byPlace[o.at]=[]; order.push(o.at); }
+      byPlace[o.at].push({s:s,o:o,lead:lead.length>0&&lead[0]===o,n:voters(s.id,o.id).length});
+    });
+  });
+  order.forEach(function(k){
+    var items=byPlace[k], leadItems=items.filter(function(x){return x.lead;});
+    var col=SLOTCOL[(leadItems[0]||items[0]).s.id];
+    var html = leadItems.length
+      ? '<span class="pin lead" style="--c:'+col+';background:'+col+'">'+leadItems.map(function(x){return x.s.time;}).join(" · ")+'</span>'
+      : '<span class="pin" style="--c:'+col+'"></span>';
+    var icon=L.divIcon({html:html,className:"",iconSize:null,iconAnchor:[8,8]});
+    var pop='<div class="pop"><ul>'+items.map(function(x){
+      return '<li style="--c:'+SLOTCOL[x.s.id]+'"><span class="tm">'+x.s.time+'</span><span>'+esc(x.o.t)+(x.n?' · '+x.n+'×':'')+(x.lead?' ⭐':'')+'</span></li>';
+    }).join("")+'</ul><div style="margin-top:6px"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(PLACES[k].q)+'">In Google Maps ↗</a></div></div>';
+    L.marker(PLACES[k].ll,{icon:icon,zIndexOffset:leadItems.length?1000:0}).bindPopup(pop).addTo(mapLayer);
+  });
+  // Tagesroute durch alles, was vorne liegt
+  var line=[];
+  SLOTS.forEach(function(s){ var l=leaders(s); if(l.length&&l[0].at&&PLACES[l[0].at].ll) line.push(PLACES[l[0].at].ll); });
+  if(line.length>1){
+    L.polyline(line,{color:"#14202e",weight:6,opacity:.25}).addTo(mapLayer);
+    L.polyline(line,{color:"#f2b544",weight:3,dashArray:"6 7"}).addTo(mapLayer);
+  }
+}
+
 function renderCredits(){
   var ul=document.getElementById("credits"); ul.innerHTML="";
   Object.keys(CREDITS).forEach(function(k){
@@ -516,7 +591,7 @@ function renderCredits(){
   });
 }
 
-function renderAll(){ renderWho(); renderTimeline(); renderResult(); renderRoute(); }
+function renderAll(){ renderWho(); renderTimeline(); renderResult(); renderRoute(); renderMap(); }
 
 document.getElementById("share").onclick=function(){
   updateUrl(); var btn=this, url=location.href;
@@ -532,7 +607,7 @@ document.getElementById("reset").onclick=function(){
   votes[me]={ts:Date.now(),picks:{}}; saveLocal(); updateUrl(); delete btn.dataset.armed; btn.textContent="Meine Stimmen löschen"; renderAll();
 };
 if(fromUrl()) updateUrl();
-renderFaces(); renderCredits(); renderAll();
+renderFaces(); renderCredits(); try { initMap(); } catch(e){} renderAll();
 </script>
 </body>
 </html>
