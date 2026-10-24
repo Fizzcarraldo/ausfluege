@@ -107,6 +107,37 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .dot{width:24px;height:24px;border-radius:50%;background:var(--pc);border:2px solid #fff;color:#fff;font-size:.7rem;font-weight:800;display:grid;place-items:center;margin-left:-6px}
 .dot:first-child{margin-left:0}
 .swipe{font-size:.76rem;font-weight:600;color:var(--muted)}
+/* Mehr-Infos-Button + Detailfenster */
+.info{font:inherit;font-size:.72rem;font-weight:700;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:3px 10px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.info:hover{background:rgba(255,255,255,.3)}
+.opt:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:640px;max-height:92vh;border-radius:24px 24px 0 0;background:#fff;color:var(--ink);overflow:hidden;box-shadow:0 -10px 40px rgba(0,0,0,.35)}
+@media (min-width:700px){dialog.sheet{margin:auto;border-radius:24px;max-height:86vh}}
+dialog.sheet::backdrop{background:rgba(13,22,38,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.sheet-scroll{max-height:inherit;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sheet-img{position:relative;aspect-ratio:16/9;max-width:100%;background:#223}
+.sheet-img img{width:100%;height:100%;object-fit:cover;display:block}
+.sheet-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:1.1rem;cursor:pointer}
+.sheet-body{padding:18px 20px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.sheet-when{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.sheet-body h3{font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1.08;margin:0;text-wrap:balance}
+.sheet-body .tags .tag{background:rgba(20,32,46,.07)}
+.sheet-body .tags .tag.veg{background:#d3f9d8}
+.sheet-body .tags .tag.tip{background:var(--gold)}
+.sheet-body p{margin:0;max-width:62ch}
+.sheet-body .lead-p{font-weight:600}
+.facts-list{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:.88rem;background:rgba(20,32,46,.04);border-radius:14px;padding:12px 14px}
+.facts-list dt{font-weight:700;color:var(--ink-soft)}
+.facts-list dd{margin:0}
+.sheet-voters{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--ink-soft)}
+.sheet-voters .dots .dot{border-color:#fff}
+.sheet-actions{display:flex;flex-wrap:wrap;gap:8px}
+.sheet-actions a,.sheet-actions button{font:inherit;font-weight:700;font-size:.92rem;border-radius:14px;padding:11px 16px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.vote-btn{border:0;background:var(--mec,#14202e);color:#fff}
+.vote-btn.on{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--mec,#14202e)}
+.link-btn{border:1px solid rgba(20,32,46,.18);background:#fff;color:var(--ink)}
+.small{font-size:.76rem;color:var(--ink-soft)}
+
 /* Karte */
 .mapwrap{background:#eef3f7}
 .mapwrap .inner{padding-block:24px 22px;display:flex;flex-direction:column;gap:10px}
@@ -207,7 +238,7 @@ details ul{padding-left:1.1em}
 <section class="mapwrap" aria-label="Karte">
   <div class="inner">
     <h2>Wo ist was</h2>
-    <p>Jeder Punkt ist eine Option, die Farbe zeigt die Uhrzeit. Was gerade vorne liegt, hat ein Uhrzeit-Schild und ist als Tagesroute verbunden. Punkt antippen für Details.</p>
+    <p>Jeder Punkt ist eine Option, die Farbe zeigt die Uhrzeit. Was gerade vorne liegt, hat ein Uhrzeit-Schild und ist als Tagesroute verbunden. Punkt antippen, dann Namen antippen für mehr Infos.</p>
     <div id="map"></div>
     <div class="legend" id="legend"></div>
   </div>
@@ -246,6 +277,8 @@ details ul{padding-left:1.1em}
     </details>
   </div>
 </section>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle"><div class="sheet-scroll" id="sheetInner"></div></dialog>
 
 <script>
 var PEOPLE = [
@@ -357,6 +390,54 @@ var TIMELINE = [
   { fixed:true, time:"spät", dur:"1 Std", title:"Rückfahrt", text:"S3 zurück nach Langwied (fährt bis nach Mitternacht), dann 45 Min Auto. Wer fährt, bleibt nüchtern.", at:"langwied" }
 ];
 var CREDITS = {"kaffee": "2023-09-27 Latte Macchiato.jpg", "tushita": "Teapot and teacups adorned with uzbek traditional motifs.jpg", "skip": "Rathaus and Marienplatz from Peterskirche - August 2006.jpg", "dult": "004 Auerduld Kirchweihdult 2013.JPG", "altstadt": "Asamkirche München Innenraum.jpg", "eisbach": "Surfer auf der Eisbachwelle Bild 4 2022-11-19.jpg", "residenz": "Antiquarium Residenz Munich.jpg", "maxpett": "Veganes Frankfurter Schnitzel mit veganer Grüner Sauce und Salzkartoffeln.jpg", "swing": "Vegan Burger (5841255378).jpg", "mandeln": "Frisch gebrannte Mandeln 2011.JPG", "escape": "Escape Quest - The Black Widow 1.jpg", "bowling": "Bowling alley in Grinnell, Iowa.jpg", "olympia": "Olympiapark München.jpg", "pinakothek": "München-Maxvorstadt Pinakothek der Moderne Rotunde 755.jpg", "uniqlo": "Interior of Uniqlo The Heritage Bandung.jpg", "emmis": "Pancakes (Vegan) (Cropped).jpg", "hexenhaus": "Vegan crumb cake from Tartine.jpg", "bodhi": "Seitan steak with red cabbage and potatoes.jpg", "soy": "Gỏi cuốn.jpg", "myshkin": "Easy vegan pho (48839662497).jpg", "cocktail": "Bartender at Sylvarum cocktail bar, Alicante.jpg", "karaoke": "Karaoke-Box.jpg", "spiele": "Draughts board game café Haggerton 2019.jpg", "impro": "The Laughing Audience (BM 1858,0417.557).jpg", "heim": "Siegestor München abends.jpg", "billard": "Billiards table 4.jpg", "darts": "Playing Darts.jpg", "vr": "InclusiveGameLab Person-Playing-Virtual-Reality 9 CC-BY-SA.jpg", "eis": "Servus Place Leisure Ice Skating Rink 2014.jpg", "friedhof": "20221107 Alter Südfriedhof München 05.jpg", "valentin": "Panoptikum im Valentin-Karlstadt-Museum.jpg", "saraceno": "Tomás Saraceno - new connectome (working title) (10923260633).jpg", "gaudi": "Casa Batlló 01.jpg", "bruegel": "Pieter Bruegel d. Ä. (1525-1569) - Das Schlaraffenland - 8940 - Bavarian State Painting Collections.jpg", "smaek": "Staatliches Museum Ägyptischer Kunst und HFF.jpg", "brandhorst": "Museum Brandhorst Fassade 1.JPG", "nacht": "Palmié Charles - Marienplatz.jpg", "mammabao": "Biangbiang noodles.jpg", "fuenfk": "München-Lehel Museum Fünf Kontinente 671.jpg", "hero": "Englischer Garten Monopteros Herbst-6.jpg", "maxx": "Live Painting by Beo Beyond.jpg", "keramik": "Mugs and plates at 49 Kossuth St, Tihany.JPG", "arcade": "Retrovolt Arcade 2017 - Arcade and Pinball Machines.jpg"};
+// Mehr Infos + Link pro Option. url fehlt = Google-Suche nach dem Namen.
+var MORE = {
+  kaffee:{ more:"Am Viktualienmarkt gibt es mehrere Kaffeestände; Hafermilch haben die meisten. Gleich danach lohnt ein Blick in die Feinkost- und Gewürzstände.", search:"Kaffee Viktualienmarkt München" },
+  tushita:{ more:"Teehaus mit sehr großer Auswahl, ruhige Atmosphäre. Gut, um nach der Fahrt anzukommen. Vom Marienplatz ca. 10 Min zu Fuß.", search:"Tushita Teehaus München" },
+  skip:{ more:"Direkt vom Marienplatz ins Programm. Spart eine halbe Stunde für später." },
+  dult:{ url:"https://www.muenchen.de/veranstaltungen/freizeit/feste-festivals/auer-dult-2026", more:"Die Kirchweihdult ist die letzte der drei Dulten im Jahr: rund 250 Stände mit Trödel, Antiquitäten, Geschirr und Haushaltskram, dazu Schiffschaukel, Riesenrad und Karussells. Markt 10–19 Uhr, Fahrgeschäfte ab 10:30, Eintritt frei. Wegen Fernwärme-Bauarbeiten am Mariahilfplatz können Wege anders verlaufen." },
+  valentin:{ url:"https://www.valentin-karlstadt-musaeum.de/", more:"Museum über Karl Valentin und Liesl Karlstadt im Isartor-Turm, nach der Sanierung seit Juli 2026 wieder offen, mit neuer Lisl-Karlstadt-Ausstellung. Absurd, witzig, klein: gut 45–60 Min. Oben im Turmstüberl gibt's Kaffee. Nur über Wendeltreppe erreichbar. Mittwochs zu, sonst 11–18 Uhr." },
+  altstadt:{ url:"https://www.muenchen.de/sehenswuerdigkeiten", more:"Runde ab Marienplatz: Frauenkirche (Teufelstritt im Eingang suchen!), Asamkirche in der Sendlinger Straße, Hofgarten. Alles zu Fuß, kostenlos, ca. 1,5 Std mit Schauen." },
+  eisbach:{ more:"Die stehende Welle am Südende des Englischen Gartens, direkt neben dem Haus der Kunst. Surfer sind fast das ganze Jahr da. Danach ein paar Minuten durch den Park bis zum Monopteros." },
+  residenz:{ url:"https://www.residenz-muenchen.de/", more:"Ehemaliges Stadtschloss der Wittelsbacher mit über 130 Räumen. Highlight ist das Antiquarium, ein langer Renaissance-Saal voller Büsten. Mit Audioguide 1,5–2 Std." },
+  "uniqlo-frueh":{ url:"https://www.uniqlo.com/de/de/", more:"Uniqlo-Store Leopoldstraße 35 in Schwabing, U3/U6 Giselastraße. Danach ist man direkt am Englischen Garten und an der Leopoldstraße." },
+  mammabao:{ url:"https://mammabao.de/", more:"Nordchinesisches Streetfood: handgezogene Biang-Biang-Nudeln (Teig nur Mehl, Salz, Wasser, also vegan), Baos, Tofu- und Shiitake-Gerichte. Keine Reservierung, samstags laut Verzeichnis 12–16 Uhr, also kurz nach 12 hin. Bei Gerichten nach der veganen Variante fragen." },
+  maxpett:{ url:"https://www.max-pett.de/", more:"Rein veganes Restaurant nahe Sendlinger Tor: Schnitzel, Burger, Bowls, Kuchen. Gilt als einer der Klassiker der veganen Szene in München. Reservieren empfohlen." },
+  "swing-mittag":{ url:"https://www.swingkitchen.com/", more:"Rein vegane Burger-Kette aus Wien, offene Küche, schnell. Burger, Nuggets, Pommes, Cheesecake. Kein Reservieren nötig." },
+  "dult-snack":{ url:"https://www.muenchen.de/veranstaltungen/freizeit/feste-festivals/auer-dult-2026", more:"Auf der Dult gibt es vor allem Klassiker. Vegan sicher: Pommes, gebrannte Mandeln (meist mit Zucker, ohne Butter, kurz fragen), Maroni. Für ein richtiges Mittagessen eher ein Restaurant nehmen." },
+  billard:{ url:"https://orte.muenchen.de/1350478.html", more:"Café Rumford in der Rumfordstraße, zwischen Isartor und Gärtnerplatz. Billard-Café mit Tischen und Bar, laut Stadtportal samstags 9–2 Uhr. Kann man gut mit dem Glockenbach am Abend verbinden.", search:"Café Rumford München" },
+  escape:{ more:"Viele Anbieter in München, Räume meist für 2–6 Personen, ca. 60 Min. Samstags früh online buchen, die guten Räume sind schnell weg.", search:"Escape Room München Innenstadt" },
+  maxx:{ more:"Indoor-Freizeitpark in Kirchheim (östlich, S2 bis Heimstetten). Für uns: Lasertag, Laser-Labyrinth und 3D-Schwarzlicht-Golf, alles in normalen Klamotten. Die Anfahrt kostet hin und zurück gut eine Stunde.", search:"MAXX Arena Kirchheim" },
+  vr:{ more:"Escape-Rätsel mit VR-Brillen, ca. 1 Std. Kabellose Headsets, man bewegt sich frei im Raum. Online buchen.", search:"VR Escape Room München" },
+  keramik:{ more:"In Keramik-Malcafés sucht man sich ein Rohstück (Tasse, Teller, Schale) aus und bemalt es. Danach wird es gebrannt und ist meist nach ein paar Tagen abholbar oder wird verschickt. Platz reservieren.", search:"Keramik bemalen Café München" },
+  arcade:{ more:"Bars und Spielhallen mit Flippern, Retro-Automaten und Airhockey. Gut für ein, zwei Stunden mit Getränk in der Hand.", search:"Arcade Flipper Bar München" },
+  bowling:{ more:"Mehrere Bowlingcenter in München, Leihschuhe vor Ort, Bahn pro Stunde buchen. Samstagnachmittag vorher reservieren.", search:"Bowling München" },
+  eis:{ url:"https://www.olympiapark.de/de", more:"Öffentlicher Eislauf im Olympiapark, Schlittschuhverleih vor Ort. Ob die Saison schon läuft und zu welchen Zeiten, steht auf olympiapark.de. Handschuhe wären gut." },
+  saraceno:{ url:"https://www.hausderkunst.de/", more:"„Verwobene Welten“ / „Ancestral Futures“: die bisher größte Schau von Tomás Saraceno in Deutschland, bis 7.2.2027. Netzwerke aus Spinnenweben, schwebende Luft-Skulpturen (Aerocene), zwei Räume voller Salz als Kommentar zum Lithium-Abbau. Sehr atmosphärisch, ca. 1,5 Std." },
+  barcelona:{ url:"https://www.kunsthalle-muc.de/", more:"„Barcelona moderna. Von Gaudí bis Picasso“ in der Kunsthalle (Fünf Höfe, Theatinerstraße). Läuft seit 23.10. bis 21.2.2027: Barcelona um 1900 als Zentrum der Moderne, mit Architektur, Design und Malerei. Am ersten Wochenende kann es voll sein." },
+  bruegel:{ url:"https://www.pinakothek.de/de/alte-pinakothek", more:"Neue Ausstellung rund um Pieter Bruegels „Schlaraffenland“: wie das Bild in die Sammlung kam und die Geschichte jüdischen Mäzenatentums im 20. Jahrhundert. Danach kann man in der Alten Pinakothek noch Rubens und Dürer mitnehmen." },
+  brandhorst:{ url:"https://www.museum-brandhorst.de/", more:"Zeitgenössische Kunst im Bau mit der bunten Keramikstab-Fassade. „Long Story Short“ läuft bis 31.1.2027. Liegt direkt neben den Pinakotheken." },
+  smaek:{ url:"https://smaek.de/", more:"Ägyptische Kunst in einem eindrucksvollen, unterirdischen Neubau: Statuen, Sarkophage, Mumienmasken. Heute nur die Dauerausstellung; die Foto-Ausstellung „Ägypten: Geschichte und Modernität“ (Alfred Seiland) startet erst am 27.10. Mamma Bao und Swing Kitchen sind um die Ecke." },
+  krishna:{ url:"https://www.museum-fuenf-kontinente.de/", more:"„Krishna. Religion, Kunst und Popkultur“: von alten Miniaturen bis Bollywood und Pop. Nur noch bis 8.11.2026. Maximilianstraße, nah am Eisbach und an der Altstadt." },
+  fritzwinter:{ url:"https://www.pinakothek.de/de/pinakothek-der-moderne", more:"„Die Nacht berührt die Erde“: Fritz Winters Werk der 1930er und 40er, bis 21.2.2027. Im selben Haus: Design-Sammlung (Autos, Möbel, Rechner) und Architektur, gut gemischt für alle." },
+  "uniqlo-spaet":{ url:"https://www.uniqlo.com/de/de/", more:"Uniqlo-Store Leopoldstraße 35, U3/U6 Giselastraße. Läden haben samstags meist bis 20 Uhr offen. Wer nicht shoppen will, wartet im Café um die Ecke." },
+  suedfriedhof:{ url:"https://www.muenchen.de/sehenswuerdigkeiten/staedtische-friedhoefe/alter-suedfriedhof", more:"Ältester Zentralfriedhof Münchens, heute ein Park mit alten Grabsteinen, Engeln und Efeu. Im Oktober 8–19 Uhr offen, Eingang Thalkirchner Straße. In der Dämmerung mit Herbstlaub sehr stimmungsvoll. Bitte leise und respektvoll." },
+  emmis:{ more:"Veganes Café, bekannt für Pancakes, Frühstück und Kuchen. Laut OpenStreetMap am Gärtnerplatz (Buttermelcherstraße). Etwas teurer, aber sehr gelobt.", search:"Emmi's Kitchen München" },
+  hexenhaus:{ more:"Café in der Au mit gut gefüllter Kuchentheke und vielen veganen Sorten. Passt perfekt, wenn ihr eh auf der Dult wart. Genaue Adresse bitte selbst checken.", search:"Hexenhaus Café Au München" },
+  olympia:{ url:"https://www.olympiapark.de/de", more:"Aussichtsplattform auf 190 m, bei klarer Sicht bis zu den Alpen. Sonnenuntergang heute gegen 18 Uhr, danach Stadt im Lichtermeer. U3 Olympiazentrum." },
+  bodhi:{ more:"Rein veganes Wirtshaus im Westend: bayerisch-gemütlich, Karte von Gyros bis Gulasch. Laut Verzeichnis abends bis ca. 23:30 offen. Samstags unbedingt reservieren.", search:"bodhi vegan München Ligsalzstraße" },
+  "maxpett-abend":{ url:"https://www.max-pett.de/", more:"Rein vegan nahe Sendlinger Tor, abends gemütlich. Reservieren empfohlen." },
+  soy:{ more:"Eines der wenigen rein veganen vietnamesischen Restaurants in München, Theresienstraße. Pho, Sommerrollen, Currys. Reservierung wird empfohlen.", search:"Soy vegan München Theresienstraße" },
+  myshkin:{ url:"https://prinzmyshkin.com/de", more:"Vegetarisches Restaurant in der Altstadt (Hackenstraße), seit Jahrzehnten eine Institution, viele vegane Gerichte. Schöner, hoher Gastraum." },
+  "swing-abend":{ url:"https://www.swingkitchen.com/", more:"Rein vegane Burger, Nuggets, Pommes und Cheesecake. Schnell und unkompliziert, gut wenn ihr danach noch was vorhabt." },
+  cocktail:{ more:"Rund um Gärtnerplatz und Glockenbachviertel liegen viele Bars dicht beieinander, samstags gute Stimmung. Einfach losziehen und reinschauen.", search:"Cocktailbar Glockenbachviertel München" },
+  "billard-abend":{ url:"https://orte.muenchen.de/1350478.html", more:"Café Rumford hat laut Stadtportal samstags bis 2 Uhr offen. Billard, Drinks, nah am Glockenbach. Alternativen mit Billard und Darts sammelt Mit Vergnügen.", search:"Café Rumford München" },
+  grusel:{ url:"https://www.munich.travel/angebote/buchen/weisser-stadtvogel-nachtwaechter-tour", more:"Nachtwächter-Führung mit Laterne durch die Altstadt: Teufelssagen, alte Begräbnisbräuche, dunkle Ecken. 90–120 Min, Start am Marienplatz. Daneben gibt es englische „Haunted Walks“. Startzeiten und Tickets vorher online checken." },
+  karaoke:{ more:"Private Karaoke-Boxen, die man pro Stunde für die Gruppe mietet. Vorher reservieren.", search:"Karaoke Box München" },
+  spiele:{ more:"Brettspielcafés haben Hunderte Spiele und Leute, die sie erklären. Gemütlicher Ausklang mit Getränken.", search:"Brettspielcafé München" },
+  impro:{ more:"Improtheater und Comedy laufen samstags an mehreren Bühnen. Vorher kurz schauen, was heute läuft, und Tickets sichern.", search:"Improtheater München heute" },
+  heim:{ more:"Nach dem Essen mit der S3 zurück nach Langwied, dann 45 Min Auto. Gegen 21:30 in Augsburg." }
+};
 
 // Himmel pro Uhrzeit: Hintergrund, Text, gedämpfter Text, Icon
 var SKY = {
@@ -442,7 +523,7 @@ function renderTimeline(){
       if(g) what.appendChild(el("div","grp",g+" · "+byGrp[g].length));
       byGrp[g].forEach(function(o){
         var vs=voters(s.id,o.id), isMine=!!me&&vs.some(function(p){return p.id===me;}), isLead=lead.indexOf(o)>=0;
-        var b=el("button","opt"+(isLead?" lead":"")+(isMine?" mine":"")); b.type="button"; b.setAttribute("aria-pressed",isMine?"true":"false");
+        var b=el("div","opt"+(isLead?" lead":"")+(isMine?" mine":"")); b.tabIndex=0; b.setAttribute("role","button"); b.setAttribute("aria-pressed",isMine?"true":"false");
         b.setAttribute("aria-label",o.t+(isMine?", von dir gewählt":""));
         var img=document.createElement("img"); img.src="img/"+o.img+".jpg"; img.alt=""; img.loading="lazy"; b.appendChild(img);
         var top=el("div","top"), tags=el("div","tags");
@@ -456,15 +537,15 @@ function renderTimeline(){
         var txt=el("div","txt");
         if(isMine&&isLead){ var lb=el("span","lead-badge",lead.length>1?"Gleichstand":"Vorne"); lb.style.alignSelf="flex-start"; txt.appendChild(lb); }
         txt.appendChild(el("div","oname",o.t)); txt.appendChild(el("div","odesc",o.d));
-        var foot=el("div","foot"); foot.appendChild(el("span","price",o.p?("~"+o.p+" € p.P."):"gratis"));
+        var foot=el("div","foot");
+        var info=el("button","info","Mehr Infos"); info.type="button"; info.setAttribute("aria-label","Mehr Infos zu "+o.t);
+        info.onclick=function(ev){ ev.stopPropagation(); openInfo(s,o); };
+        foot.appendChild(info);
         var dots=el("div","dots"); vs.forEach(function(p){ dots.appendChild(mini(p,"dot")); }); foot.appendChild(dots);
+        txt.appendChild(el("span","price",o.p?("~"+o.p+" € p.P."):"gratis"));
         txt.appendChild(foot); b.appendChild(txt);
-        b.onclick=function(){
-          if(!me){ var h=document.getElementById("whohint"); h.textContent="👆 Erst hier auswählen, wer du bist."; h.style.color="var(--e)"; h.style.fontWeight="700"; return; }
-          var mv=votes[me], arr=mv.picks[s.id]||[], i=arr.indexOf(o.id);
-          if(i>=0) arr.splice(i,1); else arr.push(o.id);
-          mv.picks[s.id]=arr; mv.ts=Date.now(); saveLocal(); updateUrl(); renderAll();
-        };
+        b.onclick=function(){ toggleVote(s,o); };
+        b.onkeydown=function(ev){ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); toggleVote(s,o); } };
         row.appendChild(b);
       });
       what.appendChild(row);
@@ -497,6 +578,71 @@ function renderResult(){
   var t=document.getElementById("total"); t.textContent="ca. "+sum+" € pro Person";
   t.appendChild(el("small",null,"inkl. Ticket-Anteil, ohne Sprit, Parken und Shopping"));
 }
+
+function toggleVote(s,o){
+  if(!me){
+    var h=document.getElementById("whohint"); h.textContent="👆 Erst hier auswählen, wer du bist."; h.style.color="var(--e)"; h.style.fontWeight="700";
+    var sh=document.getElementById("sheet"); if(sh.open) sh.close();
+    return false;
+  }
+  var mv=votes[me], arr=mv.picks[s.id]||[], i=arr.indexOf(o.id);
+  if(i>=0) arr.splice(i,1); else arr.push(o.id);
+  mv.picks[s.id]=arr; mv.ts=Date.now(); saveLocal(); updateUrl(); renderAll();
+  return true;
+}
+var openSheet=null;
+function linkFor(o){
+  var m=MORE[o.id]||{};
+  if(m.url) return {href:m.url, label:"Website ↗"};
+  return {href:"https://www.google.com/search?q="+encodeURIComponent(m.search||(o.t+" München")), label:"Bei Google suchen ↗"};
+}
+function openInfo(s,o){
+  openSheet={s:s,o:o};
+  var m=MORE[o.id]||{}, host=document.getElementById("sheetInner"); host.innerHTML="";
+  host.style.setProperty("--c",SLOTCOL[s.id]||"#14202e");
+  var im=el("div","sheet-img"), img=document.createElement("img"); img.src="img/"+o.img+".jpg"; img.alt=""; im.appendChild(img);
+  var x=el("button","sheet-close","✕"); x.type="button"; x.setAttribute("aria-label","Schließen"); x.onclick=function(){ document.getElementById("sheet").close(); };
+  im.appendChild(x); host.appendChild(im);
+  var body=el("div","sheet-body");
+  body.appendChild(el("div","sheet-when",s.time+" · "+s.title));
+  var h=el("h3",null,o.t); h.id="sheetTitle"; body.appendChild(h);
+  var tags=el("div","tags");
+  if(o.top) tags.appendChild(el("span","tag tip","Tipp"));
+  if(o.veg) tags.appendChild(el("span","tag veg","vegan"));
+  if(o.wet) tags.appendChild(el("span","tag","drinnen"));
+  if(tags.children.length) body.appendChild(tags);
+  body.appendChild(el("p","lead-p",o.d));
+  if(m.more) body.appendChild(el("p",null,m.more));
+  var dl=el("dl","facts-list");
+  function row(k,v){ dl.appendChild(el("dt",null,k)); dl.appendChild(el("dd",null,v)); }
+  row("Kosten", o.p?("ca. "+o.p+" € pro Person (Schätzung)"):"kostenlos");
+  row("Wo", o.at?PLACES[o.at].q:"verschiedene Anbieter, siehe Link");
+  body.appendChild(dl);
+  var vs=voters(s.id,o.id), vrow=el("div","sheet-voters"), dots=el("div","dots");
+  vs.forEach(function(p){ dots.appendChild(mini(p,"dot")); });
+  vrow.appendChild(dots); vrow.appendChild(document.createTextNode(vs.length?(vs.map(function(p){return p.name;}).join(", ")+" "+(vs.length>1?"sind":"ist")+" dabei"):"Noch keine Stimme"));
+  body.appendChild(vrow);
+  var acts=el("div","sheet-actions");
+  var isMine=!!me&&vs.some(function(p){return p.id===me;});
+  var vb=el("button","vote-btn"+(isMine?" on":""), me?(isMine?"✓ Gewählt (abwählen)":"Bin dabei"):"Erst oben Namen wählen"); vb.type="button";
+  vb.onclick=function(){ if(toggleVote(s,o)) openInfo(s,o); };
+  acts.appendChild(vb);
+  var lk=linkFor(o), a=el("a","link-btn",lk.label); a.href=lk.href; a.target="_blank"; a.rel="noopener"; acts.appendChild(a);
+  if(o.at){ var g=el("a","link-btn","Google Maps ↗"); g.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(PLACES[o.at].q); g.target="_blank"; g.rel="noopener"; acts.appendChild(g); }
+  body.appendChild(acts);
+  body.appendChild(el("div","small","Infos aus öffentlichen Quellen, Stand heute. Öffnungszeiten und Preise vor Ort bzw. auf der Website checken."));
+  host.appendChild(body);
+  var d=document.getElementById("sheet");
+  if(!d.open){ if(d.showModal) d.showModal(); else d.setAttribute("open",""); }
+  host.scrollTop=0;
+}
+document.addEventListener("click",function(e){
+  var a=e.target.closest&&e.target.closest(".popinfo"); if(!a) return;
+  e.preventDefault();
+  var s=SLOTS.filter(function(x){return x.id===a.dataset.s;})[0]; if(!s) return;
+  var o=s.options.filter(function(x){return x.id===a.dataset.o;})[0]; if(o) openInfo(s,o);
+});
+document.getElementById("sheet").addEventListener("click",function(e){ if(e.target===this) this.close(); });
 
 function km(a,b){
   var R=6371, r=Math.PI/180, dLa=(b[0]-a[0])*r, dLo=(b[1]-a[1])*r;
@@ -570,7 +716,7 @@ function renderMap(){
       : '<span class="pin" style="--c:'+col+'"></span>';
     var icon=L.divIcon({html:html,className:"",iconSize:null,iconAnchor:[8,8]});
     var pop='<div class="pop"><ul>'+items.map(function(x){
-      return '<li style="--c:'+SLOTCOL[x.s.id]+'"><span class="tm">'+x.s.time+'</span><span>'+esc(x.o.t)+(x.n?' · '+x.n+'×':'')+(x.lead?' ⭐':'')+'</span></li>';
+      return '<li style="--c:'+SLOTCOL[x.s.id]+'"><span class="tm">'+x.s.time+'</span><span><a href="#" class="popinfo" data-s="'+x.s.id+'" data-o="'+x.o.id+'">'+esc(x.o.t)+'</a>'+(x.n?' · '+x.n+'×':'')+(x.lead?' ⭐':'')+'</span></li>';
     }).join("")+'</ul><div style="margin-top:6px"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(PLACES[k].q)+'">In Google Maps ↗</a></div></div>';
     L.marker(PLACES[k].ll,{icon:icon,zIndexOffset:leadItems.length?1000:0}).bindPopup(pop).addTo(mapLayer);
   });
