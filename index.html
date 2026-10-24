@@ -4,144 +4,191 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#cfe3f2">
 <title>München-Tag · Sa 24.10. · Voting</title>
 <meta name="description" content="Esra, Claire, Laura &amp; Flo voten unseren Tag in München, Stunde für Stunde.">
 <meta property="og:title" content="München-Tag · Sa 24.10. · Voting">
 <meta property="og:description" content="Esra, Claire, Laura &amp; Flo voten unseren Tag in München, Stunde für Stunde.">
-<meta property="og:image" content="img/dult.jpg">
+<meta property="og:image" content="https://fizzcarraldo.github.io/ausfluege/img/dult.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Nunito+Sans:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: senkrechte Zeitleiste (Uhrzeit links an der Schiene), pro Zeitfenster eine wischbare Bildkarten-Reihe */
+/* Layout-Idee: Die Seite ist der Himmel über München von 10 bis Mitternacht.
+   Jedes Zeitfenster trägt seine eigene Himmelsfarbe (Vormittag hell → Dämmerung → Nacht),
+   links die große Uhrzeit, rechts eine wischbare Reihe Bildkarten mit Text auf dem Foto.
+   Bewusst ein einziger Look (keine Dark-Mode-Variante): die Farben kommen vom Tagesverlauf. */
 :root{
-  --bg:#f3f5f8; --card:#fff; --fg:#17202b; --muted:#5b6675; --line:#dfe4ea;
-  --accent:#0f6bd8; --accent-soft:#e3eefc; --win:#13814f; --win-soft:#e1f4ea; --warm:#c2410c; --veg:#2f9e44;
-  --e:#d6336c; --c:#7048e8; --l:#0c8599; --f:#e8590c;
+  --ink:#14202e; --ink-soft:#4a5a6c; --paper:#ffffff;
+  --e:#e64980; --c:#845ef7; --l:#15aabf; --f:#fd7e14;
+  --win:#2b8a3e; --veg:#2f9e44; --gold:#f2b544;
   --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
-  --body:"Nunito Sans",system-ui,-apple-system,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --gutter-l:max(16px,env(safe-area-inset-left,0px));
+  --gutter-r:max(16px,env(safe-area-inset-right,0px));
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root{
-  --bg:#0f141b; --card:#18202a; --fg:#e8edf3; --muted:#9aa6b4; --line:#2a3542;
-  --accent:#5ea4ff; --accent-soft:#1b2c44; --win:#4cc78a; --win-soft:#163527; --warm:#fb8a4c; --veg:#69db7c;
-  --e:#f06595; --c:#9775fa; --l:#3bc9db; --f:#ff922b; color-scheme:dark}}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;overflow-x:hidden}
-.wrap{max-width:720px;margin:0 auto;padding-block:max(20px,env(safe-area-inset-top,0px)) 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
-h1{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1.05;margin:0;text-wrap:balance}
-h2{font-family:var(--display);font-weight:800;font-size:1.15rem;margin:0;text-wrap:balance}
-.eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800}
-.lead{color:var(--muted);margin:6px 0 0}
-.facts{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.84rem}
-.chip b{font-weight:800}
-a{color:var(--accent)}
-/* Wer bin ich */
-.me{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
-.me-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.me-label{font-weight:800;font-size:.9rem}
-.who{font:inherit;font-weight:800;font-size:.92rem;border:2px solid var(--pc);color:var(--pc);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer}
+html{-webkit-text-size-adjust:100%;background:#0d1626}
+body{margin:0;background:#cfe3f2;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;overflow-x:hidden}
+img{max-width:100%}
+.inner{max-width:760px;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+
+/* Hero */
+.hero{position:relative;min-height:min(78vh,620px);display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:#36506b}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,22,38,.15) 0%,rgba(13,22,38,.05) 35%,rgba(13,22,38,.78) 100%)}
+.hero .inner{position:relative;z-index:1;width:100%;padding-block:0 28px}
+.kicker{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.8rem,13vw,5.6rem);line-height:.88;letter-spacing:-.02em;margin:.25em 0 .3em;text-wrap:balance}
+.hero h1 span{color:var(--gold)}
+.crew{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.faces{display:flex}
+.face{width:34px;height:34px;border-radius:50%;background:var(--pc);border:2px solid #fff;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-left:-8px}
+.face:first-child{margin-left:0}
+.crew-names{font-weight:600;font-size:.95rem}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.fact{background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 11px;font-size:.8rem;font-weight:500}
+
+/* Ich-bin-Leiste */
+.me{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgba(20,32,46,.08);padding-top:env(safe-area-inset-top,0px)}
+.me .inner{padding-block:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.me-label{font-family:var(--display);font-weight:700;font-size:.95rem}
+.seg{display:flex;gap:4px;background:rgba(20,32,46,.06);border-radius:999px;padding:4px;flex-wrap:wrap}
+.who{font:inherit;font-weight:600;font-size:.9rem;border:0;background:none;color:var(--ink);border-radius:999px;padding:6px 12px 6px 6px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.who .mini{width:22px;height:22px;border-radius:50%;background:var(--pc);color:#fff;font-size:.72rem;font-weight:700;display:grid;place-items:center}
 .who.on{background:var(--pc);color:#fff}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.hint{font-size:.82rem;color:var(--muted);margin-top:6px}
-/* Zeitleiste */
-.timeline{display:flex;flex-direction:column}
-.tl{display:grid;grid-template-columns:58px minmax(0,1fr);gap:0 12px}
-.rail{position:relative;display:flex;flex-direction:column;align-items:flex-end}
-.rail::after{content:"";position:absolute;right:-7px;top:10px;bottom:-10px;width:2px;background:var(--line)}
-.tl:last-child .rail::after{display:none}
-.clock{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent);font-size:1.05rem;line-height:1.2}
-.dur{font-size:.72rem;color:var(--muted);font-weight:700;text-align:right}
-.node{position:absolute;right:-12px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);z-index:1}
-.tl.fixed .node{border-color:var(--muted)}
-.body{padding-bottom:26px;min-width:0;display:flex;flex-direction:column;gap:8px}
-.slot-head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;padding-left:6px}
-.slot-sub{font-size:.85rem;color:var(--muted);padding-left:6px}
-.fixtext{padding-left:6px}
-.fixtext p{margin:0}
-.sub{color:var(--muted);font-size:.86rem}
-/* Karten-Reihe */
-.row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 6px 10px;margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));scrollbar-width:thin}
-.opt{flex:0 0 min(78%,250px);scroll-snap-align:start;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;display:flex;flex-direction:column}
-.opt.mine{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
-.opt.lead{border-color:var(--win);box-shadow:0 0 0 2px var(--win)}
-.opt.lead.mine{box-shadow:0 0 0 2px var(--win),0 0 0 4px var(--accent)}
-.pic{position:relative;aspect-ratio:16/10;max-width:100%;background:var(--line)}
-.pic img{width:100%;height:100%;object-fit:cover;display:block}
-.dots{position:absolute;left:8px;bottom:8px;display:flex;gap:3px}
-.dot{width:24px;height:24px;border-radius:50%;background:var(--pc);color:#fff;font-size:.74rem;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
-.lead-badge{position:absolute;right:8px;top:8px;background:var(--win);color:#fff;font-size:.7rem;font-weight:800;border-radius:999px;padding:2px 9px;letter-spacing:.04em;text-transform:uppercase}
-.txt{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
-.tag.veg{color:var(--veg)}
-.tag.top{color:var(--win)}
-.oname{font-weight:800;line-height:1.25}
-.odesc{color:var(--muted);font-size:.84rem}
-.meta{margin-top:auto;display:flex;justify-content:space-between;gap:8px;font-size:.78rem;font-weight:800;color:var(--muted);padding-top:4px}
-/* Ergebnis */
-.result{background:var(--accent-soft);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
-.plan{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.plan li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px}
-.plan .t{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent)}
-.plan .open{color:var(--muted)}
-.total{font-weight:800}
+.who.on .mini{background:#fff;color:var(--pc)}
+.hint{width:100%;font-size:.8rem;color:var(--ink-soft)}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* Zeitfenster als Himmelsbänder */
+.band{background:var(--sky);color:var(--fg);--muted:var(--fg-soft)}
+.band .inner{padding-block:30px 26px;display:grid;grid-template-columns:76px minmax(0,1fr);gap:0 14px}
+.when{position:relative}
+.when .clock{font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.when .dur{font-size:.74rem;font-weight:600;opacity:.75;margin-top:4px}
+.when .sky-ico{font-size:1.2rem;margin-top:8px;display:block}
+.what{min-width:0;display:flex;flex-direction:column;gap:10px}
+.what h2{font-family:var(--display);font-weight:800;font-size:1.45rem;line-height:1.1;margin:0;text-wrap:balance}
+.what .sub{font-size:.9rem;color:var(--muted);margin:-4px 0 0;max-width:52ch}
+.band.fixed .inner{padding-block:20px}
+.band.fixed h2{font-size:1.1rem}
+.band.fixed .clock{font-size:1.35rem}
+.fixed-tag{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.65}
+
+/* Kartenreihe */
+.row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px var(--gutter-r) 14px 2px;margin-right:calc(-1 * var(--gutter-r));scrollbar-width:none}
+.row::-webkit-scrollbar{display:none}
+.opt{flex:0 0 min(80%,270px);scroll-snap-align:start;position:relative;font:inherit;color:#fff;text-align:left;cursor:pointer;padding:0;border:0;border-radius:20px;overflow:hidden;aspect-ratio:4/5;max-width:100%;background:#223;box-shadow:0 10px 24px -14px rgba(0,0,0,.55);display:flex;flex-direction:column;justify-content:flex-end}
+.opt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.opt::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.55) 62%,rgba(0,0,0,.86) 100%)}
+.opt::after{content:"";position:absolute;inset:0;z-index:3;border-radius:20px;pointer-events:none;box-shadow:inset 0 0 0 0 transparent;transition:box-shadow .15s}
+.opt.mine::after{box-shadow:inset 0 0 0 4px var(--mec)}
+.opt.lead::after{box-shadow:inset 0 0 0 4px var(--gold)}
+.opt.lead.mine::after{box-shadow:inset 0 0 0 4px var(--gold),inset 0 0 0 8px var(--mec)}
+.opt .top{position:absolute;z-index:2;left:10px;right:10px;top:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:.64rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ink)}
+.tag.veg{background:#d3f9d8;color:#1b5e2a}
+.tag.tip{background:var(--gold);color:#3b2a00}
+.lead-badge{font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--gold);color:#3b2a00;white-space:nowrap}
+.check{width:26px;height:26px;border-radius:50%;background:var(--mec);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.85rem;flex:none}
+.opt .txt{position:relative;z-index:2;padding:14px 14px 14px;display:flex;flex-direction:column;gap:5px}
+.oname{font-family:var(--display);font-weight:800;font-size:1.18rem;line-height:1.1;text-wrap:balance}
+.odesc{font-size:.82rem;line-height:1.4;opacity:.88;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px}
+.price{font-size:.76rem;font-weight:700;opacity:.9}
+.dots{display:flex}
+.dot{width:24px;height:24px;border-radius:50%;background:var(--pc);border:2px solid #fff;color:#fff;font-size:.7rem;font-weight:800;display:grid;place-items:center;margin-left:-6px}
+.dot:first-child{margin-left:0}
+.swipe{font-size:.76rem;font-weight:600;color:var(--muted)}
+
+/* Fahrplan */
+.ticket-wrap{background:#0d1626;color:#e8eef6}
+.ticket-wrap .inner{padding-block:34px 40px;display:flex;flex-direction:column;gap:16px}
+.ticket{background:#fffdf7;color:var(--ink);border-radius:22px;overflow:hidden;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.ticket-head{background:var(--gold);padding:16px 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.ticket-head h2{font-family:var(--display);font-weight:800;font-size:1.5rem;margin:0;line-height:1}
+.ticket-head small{font-weight:600;font-size:.8rem}
+.perf{height:0;border-top:2px dashed rgba(20,32,46,.18);margin:0 14px;position:relative}
+.ticket-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px}
 .status{display:flex;gap:6px;flex-wrap:wrap}
-.pill{font-size:.78rem;font-weight:800;border-radius:999px;padding:2px 10px;background:var(--card);border:1px solid var(--line)}
-.pill.done{border-color:var(--win);color:var(--win)}
+.pill{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;border-radius:999px;padding:3px 10px 3px 3px;background:rgba(20,32,46,.06)}
+.pill .mini{width:20px;height:20px;border-radius:50%;background:var(--pc);color:#fff;font-size:.66rem;font-weight:800;display:grid;place-items:center}
+.pill.done{background:#d3f9d8;color:#1b5e2a}
+.plan{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.plan li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:8px 0;border-bottom:1px solid rgba(20,32,46,.08)}
+.plan li:last-child{border-bottom:0}
+.plan .t{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.plan .open{color:var(--ink-soft);font-style:italic}
+.plan .fx{color:var(--ink-soft)}
+.total{font-family:var(--display);font-weight:800;font-size:1.05rem}
+.total small{display:block;font-family:var(--body);font-weight:500;font-size:.78rem;color:var(--ink-soft)}
+.warn{background:#fff3bf;color:#5c3d00;border-radius:12px;padding:8px 12px;font-size:.86rem;font-weight:600}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{font:inherit;font-weight:800;font-size:.9rem;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;background:var(--accent);color:#fff}
-.btn.ghost{background:none;border:1px solid var(--line);color:var(--muted);font-weight:600}
-.note{font-size:.84rem;color:var(--muted)}
-.warn{color:var(--warm);font-weight:700}
-details{font-size:.78rem;color:var(--muted)}
+.btn{font:inherit;font-weight:700;font-size:.95rem;border:0;border-radius:14px;padding:12px 18px;cursor:pointer;background:var(--ink);color:#fff}
+.btn.ghost{background:none;border:1px solid rgba(20,32,46,.2);color:var(--ink-soft);font-weight:600}
+.note{font-size:.82rem;color:#9fb0c4;max-width:60ch}
+details{font-size:.76rem;color:#8193a8}
+details a{color:#b8c7d9}
 details ul{padding-left:1.1em}
-@media (prefers-reduced-motion:no-preference){.opt{transition:box-shadow .15s,border-color .15s}}
+@media (prefers-reduced-motion:no-preference){@media (hover:hover){.opt:hover img{transform:scale(1.05)}}}
+@media (min-width:640px){.band .inner{grid-template-columns:110px minmax(0,1fr)}.when .clock{font-size:2.4rem}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div>
-    <div class="eyebrow">Samstag, 24.10.2026 · Augsburg → München</div>
-    <h1>München-Tag zu viert</h1>
-    <p class="lead">Unser Tag als Zeitleiste. Oben wählen, wer du bist, dann pro Zeitfenster seitlich durch die Karten wischen und alles antippen, worauf du Lust hast. Grün = liegt vorne. Danach „Stand teilen“ und den Link in die Gruppe schicken.</p>
-  </div>
 
-  <div class="facts">
-    <span class="chip">🌱 <b>Essen komplett vegan</b></span>
-    <span class="chip">🌥️ <b>4–10 °C</b>, windig, evtl. Schauer</span>
-    <span class="chip">🌆 dunkel ab ca. <b>18 Uhr</b></span>
-    <span class="chip">🎡 <b>Auer Dult</b> nur noch bis So</span>
-    <span class="chip">🕐 Nacht auf So: <b>Uhr zurück</b></span>
-  </div>
-
-  <div class="me">
-    <div class="me-row" id="who"><span class="me-label">Ich bin:</span></div>
-    <div class="hint" id="whohint">Erst Namen wählen, dann voten.</div>
-  </div>
-
-  <div class="timeline" id="timeline"></div>
-
-  <section class="result" aria-live="polite">
-    <div class="eyebrow">Unser Fahrplan, Stand jetzt</div>
-    <div class="status" id="status"></div>
-    <ul class="plan" id="plan"></ul>
-    <div id="uniqloWarn" class="warn" hidden>Uniqlo liegt noch in keinem Zeitfenster vorne. Vormittag oder 17 Uhr?</div>
-    <div class="total" id="total"></div>
-    <div class="actions">
-      <button class="btn" id="share" type="button">🔗 Stand teilen (Link)</button>
-      <button class="btn ghost" id="reset" type="button">Meine Stimmen löschen</button>
+<header class="hero">
+  <img src="img/dult.jpg" alt="Herbstliche Auer Dult mit Riesenrad und Marktständen">
+  <div class="inner">
+    <div class="kicker">Samstag · 24. Oktober 2026</div>
+    <h1>Ein Tag in <span>München</span></h1>
+    <div class="crew"><div class="faces" id="faces"></div><div class="crew-names">Esra, Claire, Laura &amp; Flo</div></div>
+    <div class="facts">
+      <span class="fact">🌱 Essen komplett vegan</span>
+      <span class="fact">🌥️ 4–10 °C, windig</span>
+      <span class="fact">🎡 Auer Dult bis So</span>
+      <span class="fact">🕐 Heute Nacht Uhr zurück</span>
     </div>
-    <div class="note">Preise sind grobe Schätzungen pro Person. Öffnungszeiten vorher kurz checken; Escape Room, Karaoke, Bouldern und Restaurants am Samstag reservieren.</div>
-  </section>
+  </div>
+</header>
 
-  <details>
-    <summary>Bildnachweis</summary>
-    <p>Alle Fotos von Wikimedia Commons (freie Lizenzen, Symbolbilder, nicht die genannten Läden selbst):</p>
-    <ul id="credits"></ul>
-  </details>
+<div class="me">
+  <div class="inner">
+    <span class="me-label">Ich bin</span>
+    <div class="seg" id="who"></div>
+    <div class="hint" id="whohint">Wähl dich aus, dann pro Uhrzeit wischen und antippen, worauf du Lust hast.</div>
+  </div>
 </div>
+
+<main id="timeline"></main>
+
+<section class="ticket-wrap" aria-live="polite">
+  <div class="inner">
+    <div class="ticket">
+      <div class="ticket-head"><h2>Unser Fahrplan</h2><small>Augsburg ⇄ München · 4 Pers.</small></div>
+      <div class="ticket-body">
+        <div class="status" id="status"></div>
+      </div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <ul class="plan" id="plan"></ul>
+        <div id="uniqloWarn" class="warn" hidden>Uniqlo liegt noch nirgends vorne. Lieber 11:50 oder 17:00?</div>
+        <div class="total" id="total"></div>
+        <div class="actions">
+          <button class="btn" id="share" type="button">🔗 Stand teilen</button>
+          <button class="btn ghost" id="reset" type="button">Meine Stimmen löschen</button>
+        </div>
+      </div>
+    </div>
+    <p class="note">Preise sind grobe Schätzungen pro Person. Öffnungszeiten vorher kurz checken; Escape Room, Karaoke, Bouldern und Restaurants am Samstag reservieren.</p>
+    <details>
+      <summary>Bildnachweis</summary>
+      <p>Alle Fotos von Wikimedia Commons (freie Lizenzen, Symbolbilder, nicht die genannten Läden selbst):</p>
+      <ul id="credits"></ul>
+    </details>
+  </div>
+</section>
 
 <script>
 var PEOPLE = [
@@ -150,7 +197,6 @@ var PEOPLE = [
   { id:"L", name:"Laura",  color:"var(--l)" },
   { id:"F", name:"Flo",    color:"var(--f)" }
 ];
-// Zeitleiste. fixed = kein Voting. veg = vegan, wet = drinnen, top = Tipp
 var TIMELINE = [
   { fixed:true, time:"10:00", dur:"45 Min", title:"Los in Augsburg", text:"A8 Richtung München bis P+R Langwied." },
   { fixed:true, time:"10:50", dur:"30 Min", title:"Parken + S3 in die Stadt", text:"Gruppen-Tageskarte Zone M für alle 4 (ca. 19,70 €, also ~5 € pro Kopf; am Automaten checken). S3 Richtung Holzkirchen, 20 Min bis Marienplatz." },
@@ -204,6 +250,19 @@ var TIMELINE = [
   { fixed:true, time:"spät", dur:"1 Std", title:"Rückfahrt", text:"S3 zurück nach Langwied (fährt bis nach Mitternacht), dann 45 Min Auto. Wer fährt, bleibt nüchtern." }
 ];
 var CREDITS = {"kaffee":"2023-09-27 Latte Macchiato.jpg","tushita":"Teapot and teacups adorned with uzbek traditional motifs.jpg","skip":"Rathaus and Marienplatz from Peterskirche - August 2006.jpg","dult":"004 Auerduld Kirchweihdult 2013.JPG","altstadt":"Asamkirche München Innenraum.jpg","eisbach":"Surfer auf der Eisbachwelle Bild 4 2022-11-19.jpg","residenz":"Antiquarium Residenz Munich.jpg","maxpett":"Veganes Frankfurter Schnitzel mit veganer Grüner Sauce und Salzkartoffeln.jpg","swing":"Vegan Burger (5841255378).jpg","mandeln":"Frisch gebrannte Mandeln 2011.JPG","escape":"Escape Quest - The Black Widow 1.jpg","minigolf":"Minigolf Herdecke.jpg","bouldern":"Man climbing in bouldering gym.jpg","bowling":"Bowling alley in Grinnell, Iowa.jpg","volksbad":"Müllersches Volksbad, Múnich, Alemania04.JPG","museum":"Ausstellung Deutsches Museum 46.jpg","olympia":"Olympiapark München.jpg","pinakothek":"München-Maxvorstadt Pinakothek der Moderne Rotunde 755.jpg","uniqlo":"Interior of Uniqlo The Heritage Bandung.jpg","emmis":"Pancakes (Vegan) (Cropped).jpg","hexenhaus":"Vegan crumb cake from Tartine.jpg","bodhi":"Seitan steak with red cabbage and potatoes.jpg","soy":"Gỏi cuốn.jpg","myshkin":"Easy vegan pho (48839662497).jpg","cocktail":"Bartender at Sylvarum cocktail bar, Alicante.jpg","karaoke":"Karaoke-Box.jpg","spiele":"Draughts board game café Haggerton 2019.jpg","impro":"The Laughing Audience (BM 1858,0417.557).jpg","kino":"Europa Cinema Auditorium, February 2025.jpg","heim":"Siegestor München abends.jpg"};
+// Himmel pro Uhrzeit: Hintergrund, Text, gedämpfter Text, Icon
+var SKY = {
+  "10:00":["#cfe3f2","#14202e","#40566d","🌤️"],
+  "10:50":["#d8e9f4","#14202e","#40566d","🚆"],
+  "11:20":["#e6f1f8","#14202e","#40566d","☕"],
+  "11:50":["#f4f1e6","#14202e","#5a5340","☀️"],
+  "13:20":["#f6ead2","#2a1f0e","#6b5532","🍽️"],
+  "14:30":["#f3d9b8","#2a1a08","#6e4f2c","⛅"],
+  "17:00":["#e9a98d","#2a120a","#5e2f22","🌇"],
+  "18:45":["#7d5a8c","#fbf3ff","#e2d0ec","🌆"],
+  "20:30":["#2d3561","#eef1ff","#c3c9ee","🌙"],
+  "spät": ["#151d38","#e3e8ff","#a9b2d9","✨"]
+};
 var SLOTS = TIMELINE.filter(function(s){ return !s.fixed; });
 
 var KEY = "muc-2026-10-24-v2";
@@ -225,6 +284,7 @@ function encodeState(){ return btoa(unescape(encodeURIComponent(JSON.stringify(v
 function updateUrl(){ var u=new URL(location.href); u.searchParams.set("v", encodeState()); history.replaceState(null,"",u); }
 saveLocal();
 
+function person(id){ return PEOPLE.filter(function(p){return p.id===id;})[0]; }
 function voters(slot,opt){ return PEOPLE.filter(function(p){ return (votes[p.id].picks[slot]||[]).indexOf(opt)>=0; }); }
 function leaders(slot){
   var max=0,best=[];
@@ -232,17 +292,23 @@ function leaders(slot){
   return best;
 }
 function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+function mini(p,cls){ var m=el("span",cls||"mini",p.id); m.style.setProperty("--pc",p.color); return m; }
 
+function renderFaces(){
+  var f=document.getElementById("faces"); f.innerHTML="";
+  PEOPLE.forEach(function(p){ var d=el("span","face",p.id); d.style.setProperty("--pc",p.color); f.appendChild(d); });
+}
 function renderWho(){
-  var row=document.getElementById("who");
-  row.querySelectorAll(".who").forEach(function(b){ b.remove(); });
+  var row=document.getElementById("who"); row.innerHTML="";
   PEOPLE.forEach(function(p){
-    var b=el("button","who"+(me===p.id?" on":""),p.name); b.type="button"; b.style.setProperty("--pc",p.color);
+    var b=el("button","who"+(me===p.id?" on":"")); b.type="button"; b.style.setProperty("--pc",p.color);
+    b.appendChild(mini(p)); b.appendChild(document.createTextNode(p.name));
     b.onclick=function(){ me=p.id; try{localStorage.setItem("muc-me",me);}catch(e){} renderAll(); };
     row.appendChild(b);
   });
-  var mine=PEOPLE.filter(function(p){return p.id===me;})[0];
-  document.getElementById("whohint").textContent = mine ? "Du votest als "+mine.name+". Tippen = Stimme an/aus, mehrere pro Zeitfenster okay." : "Erst Namen wählen, dann voten.";
+  var mp=person(me);
+  document.getElementById("whohint").textContent = mp ? "Du votest als "+mp.name+". Antippen = Stimme an/aus, mehrere pro Uhrzeit okay." : "Wähl dich aus, dann pro Uhrzeit wischen und antippen, worauf du Lust hast.";
+  document.documentElement.style.setProperty("--mec", mp ? mp.color : "transparent");
 }
 
 var scrollPos={};
@@ -251,42 +317,49 @@ function renderTimeline(){
   host.querySelectorAll(".row").forEach(function(r){ scrollPos[r.dataset.slot]=r.scrollLeft; });
   host.innerHTML="";
   TIMELINE.forEach(function(s){
-    var tl=el("div","tl"+(s.fixed?" fixed":""));
-    var rail=el("div","rail"); rail.appendChild(el("span","node")); rail.appendChild(el("div","clock",s.time)); rail.appendChild(el("div","dur",s.dur));
-    var body=el("div","body");
-    var head=el("div","slot-head"); head.appendChild(el("h2",null,s.title)); if(s.fixed) head.appendChild(el("span","eyebrow","fix"));
-    body.appendChild(head);
-    if(s.fixed){ var ft=el("div","fixtext"); ft.appendChild(el("p","sub",s.text)); body.appendChild(ft); }
+    var sky=SKY[s.time]||SKY["spät"];
+    var band=el("section","band"+(s.fixed?" fixed":""));
+    band.style.setProperty("--sky",sky[0]); band.style.setProperty("--fg",sky[1]); band.style.setProperty("--fg-soft",sky[2]);
+    var inner=el("div","inner");
+    var when=el("div","when"); when.appendChild(el("div","clock",s.time)); when.appendChild(el("div","dur",s.dur)); when.appendChild(el("span","sky-ico",sky[3]));
+    var what=el("div","what");
+    if(s.fixed){ what.appendChild(el("span","fixed-tag","steht fest")); what.appendChild(el("h2",null,s.title)); what.appendChild(el("p","sub",s.text)); }
     else {
-      if(s.sub) body.appendChild(el("div","slot-sub",s.sub));
+      what.appendChild(el("h2",null,s.title));
+      if(s.sub) what.appendChild(el("p","sub",s.sub));
       var lead=leaders(s), row=el("div","row"); row.dataset.slot=s.id;
       s.options.forEach(function(o){
         var vs=voters(s.id,o.id), isMine=!!me&&vs.some(function(p){return p.id===me;}), isLead=lead.indexOf(o)>=0;
         var b=el("button","opt"+(isLead?" lead":"")+(isMine?" mine":"")); b.type="button"; b.setAttribute("aria-pressed",isMine?"true":"false");
-        var pic=el("div","pic"); var img=document.createElement("img"); img.src="img/"+o.img+".jpg"; img.alt=""; img.loading="lazy"; pic.appendChild(img);
-        var dots=el("div","dots"); vs.forEach(function(p){ var d=el("span","dot",p.id); d.style.setProperty("--pc",p.color); d.title=p.name; dots.appendChild(d); }); pic.appendChild(dots);
-        if(isLead) pic.appendChild(el("span","lead-badge",lead.length>1?"Gleichstand":"Vorne"));
-        var txt=el("div","txt"), tags=el("div","tags");
-        if(o.top) tags.appendChild(el("span","tag top","Tipp"));
+        b.setAttribute("aria-label",o.t+(isMine?", von dir gewählt":""));
+        var img=document.createElement("img"); img.src="img/"+o.img+".jpg"; img.alt=""; img.loading="lazy"; b.appendChild(img);
+        var top=el("div","top"), tags=el("div","tags");
+        if(o.top) tags.appendChild(el("span","tag tip","Tipp"));
         if(o.veg) tags.appendChild(el("span","tag veg","vegan"));
         if(o.wet) tags.appendChild(el("span","tag","drinnen"));
-        if(tags.children.length) txt.appendChild(tags);
+        top.appendChild(tags);
+        if(isMine){ top.appendChild(el("span","check","✓")); }
+        else if(isLead){ top.appendChild(el("span","lead-badge",lead.length>1?"Gleichstand":"Vorne")); }
+        b.appendChild(top);
+        var txt=el("div","txt");
+        if(isMine&&isLead){ var lb=el("span","lead-badge",lead.length>1?"Gleichstand":"Vorne"); lb.style.alignSelf="flex-start"; txt.appendChild(lb); }
         txt.appendChild(el("div","oname",o.t)); txt.appendChild(el("div","odesc",o.d));
-        var meta=el("div","meta"); meta.appendChild(el("span",null,o.p?("~"+o.p+" € p.P."):"gratis")); meta.appendChild(el("span",null,vs.length?vs.length+" Stimme"+(vs.length>1?"n":""):""));
-        txt.appendChild(meta);
-        b.appendChild(pic); b.appendChild(txt);
+        var foot=el("div","foot"); foot.appendChild(el("span","price",o.p?("~"+o.p+" € p.P."):"gratis"));
+        var dots=el("div","dots"); vs.forEach(function(p){ dots.appendChild(mini(p,"dot")); }); foot.appendChild(dots);
+        txt.appendChild(foot); b.appendChild(txt);
         b.onclick=function(){
-          if(!me){ document.getElementById("whohint").innerHTML='<span class="warn">Bitte erst oben auswählen, wer du bist.</span>'; window.scrollTo({top:0,behavior:"smooth"}); return; }
+          if(!me){ var h=document.getElementById("whohint"); h.textContent="👆 Erst hier auswählen, wer du bist."; h.style.color="var(--e)"; h.style.fontWeight="700"; return; }
           var mv=votes[me], arr=mv.picks[s.id]||[], i=arr.indexOf(o.id);
           if(i>=0) arr.splice(i,1); else arr.push(o.id);
           mv.picks[s.id]=arr; mv.ts=Date.now(); saveLocal(); updateUrl(); renderAll();
         };
         row.appendChild(b);
       });
-      body.appendChild(row);
+      what.appendChild(row);
+      what.appendChild(el("div","swipe",s.options.length+" Optionen · wischen →"));
       if(scrollPos[s.id]) row.scrollLeft=scrollPos[s.id];
     }
-    tl.appendChild(rail); tl.appendChild(body); host.appendChild(tl);
+    inner.appendChild(when); inner.appendChild(what); band.appendChild(inner); host.appendChild(band);
   });
 }
 
@@ -294,13 +367,13 @@ function renderResult(){
   var st=document.getElementById("status"); st.innerHTML="";
   PEOPLE.forEach(function(p){
     var n=SLOTS.filter(function(s){ return (votes[p.id].picks[s.id]||[]).length; }).length;
-    st.appendChild(el("span","pill"+(n>=SLOTS.length?" done":""),p.name+" "+n+"/"+SLOTS.length));
+    var pill=el("span","pill"+(n>=SLOTS.length?" done":"")); pill.appendChild(mini(p)); pill.appendChild(document.createTextNode(p.name+" "+n+"/"+SLOTS.length)); st.appendChild(pill);
   });
   var plan=document.getElementById("plan"); plan.innerHTML="";
   var sum=5, uniqlo=false;
   TIMELINE.forEach(function(s){
     var li=el("li"); li.appendChild(el("span","t",s.time));
-    if(s.fixed){ li.appendChild(el("span",null,s.title)); plan.appendChild(li); return; }
+    if(s.fixed){ li.appendChild(el("span","fx",s.title)); plan.appendChild(li); return; }
     var l=leaders(s), txt;
     if(!l.length){ txt=el("span","open",s.title+": noch offen"); }
     else if(l.length===1){ txt=el("span",null,l[0].t); sum+=l[0].p; if(l[0].uniqlo) uniqlo=true; }
@@ -308,7 +381,8 @@ function renderResult(){
     li.appendChild(txt); plan.appendChild(li);
   });
   document.getElementById("uniqloWarn").hidden=uniqlo;
-  document.getElementById("total").textContent="Geschätzt ca. "+sum+" € pro Person (inkl. Ticket-Anteil, ohne Sprit, Parken, Shopping)";
+  var t=document.getElementById("total"); t.textContent="ca. "+sum+" € pro Person";
+  t.appendChild(el("small",null,"inkl. Ticket-Anteil, ohne Sprit, Parken und Shopping"));
 }
 
 function renderCredits(){
@@ -323,7 +397,7 @@ function renderAll(){ renderWho(); renderTimeline(); renderResult(); }
 
 document.getElementById("share").onclick=function(){
   updateUrl(); var btn=this, url=location.href;
-  function done(t){ btn.textContent=t; setTimeout(function(){ btn.textContent="🔗 Stand teilen (Link)"; },1800); }
+  function done(t){ btn.textContent=t; setTimeout(function(){ btn.textContent="🔗 Stand teilen"; },1800); }
   if(navigator.share){ navigator.share({title:"München-Tag Voting", url:url}).catch(function(){}); return; }
   if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){done("Link kopiert ✓");},function(){prompt("Link kopieren:",url);}); }
   else prompt("Link kopieren:",url);
@@ -335,7 +409,7 @@ document.getElementById("reset").onclick=function(){
   votes[me]={ts:Date.now(),picks:{}}; saveLocal(); updateUrl(); delete btn.dataset.armed; btn.textContent="Meine Stimmen löschen"; renderAll();
 };
 if(fromUrl()) updateUrl();
-renderCredits(); renderAll();
+renderFaces(); renderCredits(); renderAll();
 </script>
 </body>
 </html>
